@@ -1,1 +1,5 @@
-Copyright (C) 2016 Haziq Jamil. All rights reserved.
+## Abstract
+
+An extension of the I-prior methodology to binary response data is considered. Starting from a latent variable approach, it is assumed that these there exists some continuous underlying random variables which decides the outcome of the binary responses. Modelling these latent variables using a regular linear model with a further assumption that the errors are normally distributed leads to the well known generalised linear model with a probit link. Instead, a more general regression function which is assumed to lie in some reproducing kernel Hilbert space is considered, and an I-prior on the regression function is assumed. An I-prior is Gaussian process distribution with some mean chosen a priori, and covariance kernel equal to the Fisher information for the regression function. The challenge is in the estimation of these probit I-prior models, and we employ a variational approximation to overcome the intractable likelihood. Several real-world examples are presented with the analysis conducted using `R` code.
+
+Copyright (C) 2016 [Haziq Jamil](http://haziqj.ml). All rights reserved.
