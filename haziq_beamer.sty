@@ -211,6 +211,16 @@
   }
 }
 
+% References slide
+\newcommand{\refslide}{
+  {\framenoheader\framenonumber
+    \begin{frame}[t,allowframebreaks,noframenumbering]
+    \frametitle{References}
+    \printbibliography
+    \end{frame}
+  }
+}
+
 %\usepackage{etoolbox}
 %\makeatletter
 %\patchcmd{\slideentry}{\advance\beamer@xpos by1\relax}{}{}{}
@@ -255,12 +265,6 @@
 \usepackage{soul}  % for highlighting text
 \usepackage{url}
 \usepackage{hyperref}
-%\usepackage{fancyhdr}  % headers and footers
-%	\pagestyle{fancy}
-%	\renewcommand{\headrulewidth}{0pt} \renewcommand{\footrulewidth}{0pt}
-% 	\lhead{} 
-% 	\rhead{}
-% 	\chead{\leftmark}
 \usepackage[utf8]{inputenc}  % To get accents on letters
 \usepackage[T1]{fontenc}     % e.g. \"a
 \usepackage{nicefrac}   % To get nice typography for units
@@ -307,13 +311,14 @@
 %  \bibpunct{(}{)}{;}{a}{,}{,~}
 %  \addto\captionsenglish{\renewcommand{\bibname}{References}}  % change the name of Bibliography section
 \usepackage[style=authoryear, firstinits=true]{biblatex}
+\renewbibmacro{in:}{%  % remove the "In:"
+  \ifentrytype{article}{}{\printtext{\bibstring{in}\intitlepunct}}}
 \newcommand\blfootnote[1]{%
   \begingroup
   \renewcommand\thefootnote{}\footnote{#1}%
   \addtocounter{footnote}{-1}%
   \endgroup
 }
-
 
 % Paragraph settings
 %\usepackage{parskip}  
