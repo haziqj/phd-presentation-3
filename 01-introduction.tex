@@ -1,9 +1,41 @@
 \subsection{I-priors}
+
 \begin{frame}{Priors on regression functions}
-  \blfootnote{\fullcite{Bergsma2017}}
+  \begin{itemize}\setlength\itemsep{1em}
+    \item For $i = 1, \dots, n$, consider the regression model
+    \begin{align*}
+      \begin{gathered}
+        y_i = \alpha + f(x_i) + \epsilon_i \\
+        (\epsilon_1, \dots, \epsilon_n) \sim \N(0, \psi^{-1} \bI_n)
+      \end{gathered}
+    \end{align*}
+    where $f \in \cF$, $y_i \in \bbR$, and $x_i = (x_{i1}, \dots, x_{ip}) \in \cX$.
+  \end{itemize}
 \end{frame}
+
 \begin{frame}{The I-prior}
+  \vspace{-15pt}
+  \blfootnote{\fullcite{Bergsma2017}}  
+  \begin{itemize}\setlength\itemsep{1em}
+    \item Let $\cF$ be a reproducing kernel Hilbert space (RKHS) with reproducing kernel $h_\lambda: \cX \times \cX \rightarrow \bbR$. An I-prior on $f$ is
+    \[
+      \big(f(x_1), \dots, f(x_n)\big)^\top \sim \N\big(\bff_0, \cI(f)\big)
+    \] 
+    with $\bff_0$ a prior mean, and $\cI$ the Fisher information for $f$, given by
+    \[
+      \cI\big(f(x_i), f(x_j)\big) = \mathop{\sum \sum}_{x,x' \in \cX \times \cX} \psi h_\lambda(x_i,x) h_\lambda(x_j,x').
+    \]
+    \item The I-prior regression model for $i = 1,\dots,n$ becomes
+    \begin{align*}
+      \begin{gathered}
+        y_i = \alpha + \sum_{k=1}^n h_\lambda(x_i, x_k)w_k + \epsilon_i \\
+        (w_1, \dots, w_n) \sim \N(0, \psi \bI_n) \\
+        (\epsilon_1, \dots, \epsilon_n) \sim \N(0, \psi^{-1} \bI_n)
+      \end{gathered}    
+    \end{align*}
+  \end{itemize}
 \end{frame}
+
 \begin{frame}{RKHS sample paths}
 \end{frame}
 \begin{frame}{Relation to Gaussian process regression}
