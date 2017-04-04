@@ -1,20 +1,24 @@
 \subsection{I-priors}
 
-\begin{frame}{Priors on regression functions}
+\begin{frame}{The regression model}
+  \vspace{-5pt}
   \begin{itemize}\setlength\itemsep{1em}
     \item For $i = 1, \dots, n$, consider the regression model
     \begin{align*}
       \begin{gathered}
-        y_i = \alpha + f(x_i) + \epsilon_i \\
-        (\epsilon_1, \dots, \epsilon_n) \sim \N(0, \psi^{-1} \bI_n)
+        y_i = f(x_i) + \epsilon_i \\
+        (\epsilon_1, \dots, \epsilon_n) \sim \N(\bzero, \bPsi^{-1})
       \end{gathered}
     \end{align*}
     where $f \in \cF$, $y_i \in \bbR$, and $x_i = (x_{i1}, \dots, x_{ip}) \in \cX$.
   \end{itemize}
+  \begin{center}
+    \includegraphics[scale=0.7]{figure/points}
+  \end{center}
 \end{frame}
 
-\begin{frame}{The I-prior}
-  \vspace{-15pt}
+\begin{frame}{I-priors}
+  \vspace{-16pt}
   \blfootnote{\fullcite{Bergsma2017}}  
   \begin{itemize}\setlength\itemsep{1em}
     \item Let $\cF$ be a reproducing kernel Hilbert space (RKHS) with reproducing kernel $h_\lambda: \cX \times \cX \rightarrow \bbR$. An I-prior on $f$ is
@@ -23,24 +27,87 @@
     \] 
     with $\bff_0$ a prior mean, and $\cI$ the Fisher information for $f$, given by
     \[
-      \cI\big(f(x_i), f(x_j)\big) = \mathop{\sum \sum}_{x,x' \in \cX \times \cX} \psi h_\lambda(x_i,x) h_\lambda(x_j,x').
+      \cI\big(f(x), f(x')\big) = \sum_{k=1}^n\sum_{l=1}^n \psi_{kl} h_\lambda(x,x_k) h_\lambda(x',x_l).
     \]
     \item The I-prior regression model for $i = 1,\dots,n$ becomes
     \begin{align*}
       \begin{gathered}
-        y_i = \alpha + \sum_{k=1}^n h_\lambda(x_i, x_k)w_k + \epsilon_i \\
-        (w_1, \dots, w_n) \sim \N(0, \psi \bI_n) \\
-        (\epsilon_1, \dots, \epsilon_n) \sim \N(0, \psi^{-1} \bI_n)
+        y_i = f_0(x_i) + \sum_{k=1}^n h_\lambda(x_i, x_k)w_k + \epsilon_i \\
+        (w_1, \dots, w_n) \sim \N(\bzero, \bPsi) \\
+        (\epsilon_1, \dots, \epsilon_n) \sim \N(\bzero, \bPsi^{-1})
       \end{gathered}    
     \end{align*}
   \end{itemize}
 \end{frame}
 
-\begin{frame}{RKHS sample paths}
-\end{frame}
-\begin{frame}{Relation to Gaussian process regression}
+\begin{frame}{I-priors (cont.)}
+  \blfootnote{\fullcite{Jamil2017}}  
+  \begin{itemize}
+    \item Of interest is the posterior of the function
+    \[
+      p(\bff | \by ) = \frac{p(\by | \bff) p(\bff)}{\int p(\by | \bff) p(\bff) \d\bff},
+    \]
+    and also the posterior predictive distribution
+    \[
+      p(\by^* | \by ) = \int p(\by^* | \by, \bff ) p(\bff | \by ) \d\bff.
+    \]
+    \item Estimation using EM algorithm or direct maximisation of the marginal likelihood $\log p(y)$.
+    \item Fully Bayesian estimation also possible.
+  \end{itemize}
 \end{frame}
 
-\subsection{Roadmap}
+%\begin{frame}{Canonical/Linear RKHS}
+%  \vspace{-5pt}
+%  \only<1>{
+%    \begin{center}
+%      \includegraphics[scale=0.7]{figure/can-prior}
+%    \end{center}
+%  }
+%  \only<2>{
+%    \begin{center}
+%      \includegraphics[scale=0.7]{figure/can-posterior}
+%    \end{center}
+%  }  
+%\end{frame}
+
+\begin{frame}{Fractional Brownian motion (FBM) RKHS}
+  \vspace{-5pt}
+  \only<1>{
+    \begin{center}
+      \includegraphics[scale=0.7]{figure/fbm-prior}
+    \end{center}
+  }
+  \only<2>{
+    \begin{center}
+      \includegraphics[scale=0.7]{figure/fbm-posterior}
+    \end{center}
+  }  
+  \only<3>{
+    \begin{center}
+      \includegraphics[scale=0.7]{figure/fbm-posterior-truth}
+    \end{center}
+  } 
+\end{frame}
+
+\begin{frame}{Posterior predictive distribution}
+  \vspace{-5pt}
+  \only<1>{
+    \begin{center}
+      \includegraphics[scale=0.7]{figure/credible-interval}
+    \end{center}
+  }
+  \only<2>{
+    \begin{center}
+      \includegraphics[scale=0.7]{figure/ppc}
+    \end{center}
+  }
+\end{frame}
+
+\subsection{PhD Roadmap}
 \begin{frame}{Roadmap}
 \end{frame}
+
+
+
+
+

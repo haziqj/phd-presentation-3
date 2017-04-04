@@ -1,25 +1,166 @@
 \subsection{The latent variable motivation}
+
 \begin{frame}{The latent variable motivation}
+  \begin{itemize}
+    \item Consider binary responses $y_1, \dots, y_n$ together with their corresponding covariates $x_1, \dots, x_n$. 
+    \item For $i=1,\dots,n$, model the responses as
+    \[
+      y_i \sim \Bern(p_i).
+    \]
+    \item Assume that there exists continuous, underlying latent variables $y_1^*, \dots, y_n^*$, such that
+    \[
+      y_i =
+      \begin{cases}
+        1 & \text{ if } y_i^* \geq 0 \\
+        0 & \text{ if } y_i^* < 0.    \\
+      \end{cases}
+    \]
+    \item Model these continuous latent variables according to
+    \[
+      y_i^* = f(x_i) + \epsilon_i
+    \]
+    where $(\epsilon_1, \dots, \epsilon_n) \sim \N(\bzero, \bPsi^{-1})$ and $f \in \cF$ (some RKHS).
+  \end{itemize}
 \end{frame}
+
 \subsection{Using I-priors}
 \begin{frame}{Using I-priors}
+  \begin{itemize}
+    \item Assume an I-prior on $f$. Then,
+    \begin{align*}
+      \begin{gathered}
+        f(x_i) = \alpha + \sum_{k=1}^n h_\lambda(x_i, x_k)w_k \\
+        (w_1, \dots, w_n) \sim \N(\bzero, \bPsi) \\
+      \end{gathered}
+    \end{align*}
+    \item For now, consider iid errors $\bPsi = \psi\bI_n$. In this case,
+    \begin{align*}
+      p_i = \Prob[y_i = 1] &= \Prob[y_i^* \geq 0] \\
+      &= \Prob[\epsilon_i \leq f(x_i)] \\
+      &= \Phi\Big(\psi^{1/2} ( 
+%      {\color{gray} 
+%      \underbrace{{\color{black} \alpha + {\textstyle\sum_{k=1}^n} h_\lambda(x_i, x_k)w_k}}_{\eta_i}
+%      }
+      \alpha + {\textstyle\sum_{k=1}^n} h_\lambda(x_i, x_k)w_k
+      ) \Big)
+    \end{align*}
+    where $\Phi$ is the CDF of a standard normal.
+    \item No loss of generality compared with using an arbitrary threshold $\tau$ or error precision $\psi$. Thus, set $\psi = 1$.
+  \end{itemize}
 \end{frame}
+
+\begin{frame}{The probit I-prior model}
+  \vspace{3pt}
+  \begin{tikzpicture}[scale=1.1, transform shape]
+    \tikzstyle{main}=[circle, minimum size = 10mm, thick, draw =black!80, node distance = 16mm]
+    \tikzstyle{connect}=[-latex, thick]
+    \tikzstyle{box}=[rectangle, draw=black!100]
+      \node[main, draw=none] (fake) {};
+      \node[main, fill = black!10] (H) [right=of fake, xshift=-1.65cm] {$x$};
+      \node[main] (eta) [right=of H] {$f$};
+      \node[main] (ystar) [right=of eta] {$y^*$};
+      \node[main] (lambda) [above=of H, xshift=0.8cm, yshift=-0.5cm] {$\lambda$};
+      \node[main] (alpha) [above=of eta, xshift=1.2cm, yshift=-0.5cm] {$\alpha$};  
+      \node[main, fill = black!10] (y) [right=of ystar] {$y$};
+      \node[main] (w) [below=of eta, yshift=0.5cm] {$w$};
+    %  \node[main, fill = black!10] (x) [below=of eta,label=below:$x$] { };
+      \path (alpha) edge [connect] (eta)
+            (lambda) edge [connect] (eta)
+    		(H) edge [connect] (eta) 
+    		(eta) edge [connect] (ystar)
+    		(ystar) edge [connect] (y)
+    		(w) edge [connect] (eta);
+      \path (H) edge [] node [above] {$h$} (eta);
+      \node[rectangle, draw=black!100, fit= (H) (y) (w) ] {}; 
+      \node[rectangle, fit= (w) (y), label=below right:N, xshift=1cm] {};  % the label
+    \end{tikzpicture}
+\end{frame}
+
 \subsection{Estimation (and challenges)}
-\begin{frame}{The probit I-prior model}
+
+\begin{frame}{Estimation}
+  \begin{columns}
+    \uncover<1->{
+    \begin{column}{0.47\textwidth}
+      \vspace{6pt}
+      \begin{itemize}\setlength\itemsep{0.5em}
+        \item Denote $f_i = f(x_i)$ for short.
+        \item The marginal density
+        \vspace{4pt}
+        \[
+          \hspace{0.75cm} p(\by) = \int p(\by | \bff) p(\bff) \d\bff 
+        \]
+      \end{itemize}
+    \end{column}}
+    \uncover<4->{
+    \begin{column}{0.5\textwidth}
+    \vspace{-42pt}
+      \begin{center}
+        \includegraphics[scale=0.40]{figure/taylor_expand_meme}
+      \end{center}
+    \end{column}}
+  \end{columns}
+  \uncover<1->{
+  \vspace{-5pt}
+  \[
+    \phantom{p(\by)} = \int \prod_{i=1}^n \left[ \Phi(f_i)^{y_i} \big(1 - \Phi(f_i)\big)^{1-y_i} \right] \cdot \N(\alpha\bone_n, \bH_\lambda^2) \d\bff
+  \]
+  \hspace{0.65cm} for which $p(\bff|\by)$ depends, cannot be evaluated analytically.}
+  \vspace{3pt}
+  \begin{itemize}
+    \item<2-> Some strategies:
+    \begin{itemize}
+      \item[\xmark]<2-> Naive Monte-Carlo integral
+      \item[\xmark]<3-> EM algorithm with a MCMC E-step
+      \item[{\color{FUorange}\cmark}]<4-> Laplace approximation
+      \item[{\color{FUorange}\cmark}]<5-> MCMC sampling
+    \end{itemize}
+  \end{itemize}
 \end{frame}
-\begin{frame}{The probit I-prior model}
-\end{frame}
-\begin{frame}
-  \vspace*{\fill}
-  \begin{figure}[hbt]
-    \includegraphics[scale=0.5]{figure/taylor_expand_meme}
-  \end{figure}
-  \vspace*{\fill}
-\end{frame}
-\begin{frame}{Some strategies}
-\end{frame}
+
+%\begin{frame}
+%  \begin{center}
+%    \includegraphics[scale=0.5]{figure/taylor_expand_meme}
+%  \end{center}
+%\end{frame}
+
 \subsection{What works}
+
 \begin{frame}{Laplace's method}
+  \blfootnote{\fullcite[§4.1, pp. 777-778.]{Kass1995}}
+  \vspace{-15pt}
+  \begin{itemize}\setlength\itemsep{0.8em}
+    \item Interested in $p(\bff|\by) \propto p(\by|\bff)p(\bff) =: e^{Q(\bff)}$, with normalising constant $p(\by) = \int e^{Q(\bff)} \d\bff$. The Taylor expansion of $Q$ about its mode $\tilde\bff$
+    \[
+      Q(\bff) \approx Q(\tilde\bff) - \half (\bff - \tilde\bff)^\top\bA(\bff - \tilde\bff) 
+    \]
+    is recognised as the logarithm of an unnormalised Gaussian density, with $\bA = -\text{D}^2 Q(\bff)$ being the negative Hessian of $Q$ evaluated at  $\tilde\bff$.
+    \item The posterior $p(\bff|\by)$ is approximated by $\N(\tilde\bff, \bA^{-1})$, and the marginal by
+    \[
+      p(\by) \approx (2\pi)^{n/2} \vert \bA \vert^{-1/2}  p(\by|\tilde\bff)p(\tilde\bff)
+    \]
+    \item Won't scale with large $n$; difficult to find modes in high dimensions.
+  \end{itemize}
 \end{frame}
+
 \begin{frame}{Full Bayesian analysis using MCMC}
+  \begin{itemize}\setlength\itemsep{0.5em}
+    \item Assign hyperpriors on parameters of the I-prior, e.g.
+    \begin{itemize}
+      \item $\lambda^2 \sim \Gamma^{-1}(a,b)$
+      \item $\alpha \sim \N(c,d^2)$
+    \end{itemize}
+    for a hierarchical model to be estimated fully Bayes.
+    \item No closed-form posteriors - need to resort to MCMC sampling.
+    \item Computationally slow, and sampling difficulty results in unreliable posterior samples.
+  \end{itemize}
+  *DENSITY PLOTS OF LAMBDA HERE*
 \end{frame}
+
+
+
+
+
+
+
+

@@ -1,9 +1,60 @@
 \subsection{Introduction}
-\begin{frame}{Introduction}
+
+\begin{frame}{Variational inference introduction}
   \blfootnote{\fullcite{Bishop2006}}
+  \vspace{-12pt}
+  \begin{itemize}
+    \item Name derived from calculus of variations which deals with maximising or minimising functionals.
+    \begin{table}
+      \begin{tabular}{l  l  l }
+      Functions   &$p:\theta \mapsto \bbR$  &(standard calculus) \\ 
+      Functionals &$\cH:p \mapsto \bbR$     &(variational calculus) \\ 
+      \end{tabular}
+    \end{table}
+  \item Using standard calculus, we can solve
+  \[
+    \argmax_\theta p(\theta) =: \hat\theta
+  \]
+  e.g. $p$ is a likelihood function, and $\hat\theta$ is the ML estimate.
+  \item Using variational calculus, we can solve
+  \[
+    \argmax_p \cH(p) =: \tilde p
+  \]
+  e.g. $\cH$ is the entropy $\cH = - \int p(x)\log p(x) \d x$, and $\tilde p$ is the entropy maximising distribution.
+  \end{itemize}
+  \vspace{7pt}
 \end{frame}
-\begin{frame}{Decomposition of the log marginal}
+
+\begin{frame}{Variational inference introduction (cont.)}
+  \begin{itemize}\setlength\itemsep{0.8em}
+    \item Consider a statistical model where we have observations $(y_1, \dots, y_n)$ and also some latent variables $(z_1, \dots, z_n)$.
+    \item The $z_i$ could be random effects or some auxiliary latent variables.
+    \item In a Bayesian setting, this could also include the parameters to be estimated.
+    \item \textbf{GOAL}: Find approximations for
+    \begin{itemize}
+      \item The posterior distribution $p(\bz|\by)$; and
+      \item The marginal likelihood (or model evidence) $p(\by)$.
+    \end{itemize}
+  \end{itemize}
 \end{frame}
+
+\begin{frame}{Decomposition of the log marginal}  
+  \vspace{-3pt}
+  \begin{itemize}\setlength\itemsep{0.5em}
+    \item Let $q(\bz)$ be some density function to approximate $p(\bz|\by)$. Then the log-marginal density can be decomposed into
+    \begin{align*}
+      \log p(\by) &= \log p(\by,\bz) - \log p(\bz|\by) \\
+       &= \int \left\{ \log \frac{p(\by,\bz)}{q(\bz)} - \log \frac{p(\bz|\by)}{q(\bz)} \right\} q(\bz) \d \bz \\    
+      &=  \cL(q) +  \KL(q \Vert p) \\
+      &\geq \cL(q)    
+    \end{align*}
+    \item $\cL$ is referred to as the ``lower-bound'', and it serves as a surrogate function to the marginal.
+    \item Maximising the $\cL(q)$ is equivalent to minimising $\KL(q \Vert p)$.
+    \item Although $\KL(q \Vert p)$ is minimised at $q(\bz) \equiv p(\bz|\by)$ (c.f. EM algorithm), we are unable to work with $p(\bz|\by)$.
+  \end{itemize}
+\end{frame}
+
+
 \begin{frame}{Comparison}
 \end{frame}
 \begin{frame}{Factorised distributions (Mean field theory)}
