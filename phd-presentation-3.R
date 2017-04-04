@@ -242,6 +242,53 @@ plot.fbm <- plot1("FBM")
 ## ---- se.kernel.mle ----
 plot.se <- plot1("SE")
 
+
+## ---- variational.comparison ----
+# The pdf to approximate
+rx <- function(x) {
+  exp(-(x ^ 2) / 2) / (1 + exp(-(20 * x + 4)))
+}
+const <- 1 / integrate(rx, -Inf, Inf)$value
+px <- function(x) {
+  rx(x) * const
+}
+dev <- function(x) -2 * log(px(x))
+EX <- integrate(function(x) x * px(x), -Inf, Inf)$value
+EX2 <- integrate(function(x) (x ^ 2) * px(x), -Inf, Inf)$value
+VarX <- EX2 - EX ^ 2
+x.hat <- optim(0, dev, method = "BFGS")$par
+
+# Laplace approximation
+tmp <- optim(0, function(x) log(rx(x)), method = "BFGS", hessian = TRUE,
+             control = list(fnscale = -1))
+mode.p <- tmp$par
+var.p <- -1 / tmp$hessian
+lap.approx <- function(x) dnorm(x, mean = mode.p, sd = sqrt(var.p))
+lap.approx.dev <- function(x) -2 * log(lap.approx(x))
+x.lap <- optim(0, lap.approx.dev, method = "BFGS")$par
+
+# Variational approximation
+var.approx <- function(x) dnorm(x, mean = EX, sd = sqrt(VarX))
+var.approx.dev <- function(x) -2 * log(var.approx(x))
+x.var <- optim(0, var.approx.dev, method = "BFGS")$par
+
+# Density plots
+x <- seq(-2, 4, length = 1000)
+plot(x, px(x), type = "l", ylim = c(0, 0.9))
+abline(v = mode.p)
+lines(x, lap.approx(x))
+lines(x, var.approx(x))
+
+# Deviance plots
+x <- seq(-0.5, 1, length = 1000)
+plot(x, dev(x), type = "l", ylim = c(-5, 5), col = 2)
+segments(x.hat, dev(x.hat), x.hat, -5, col = 2)
+lines(x, lap.approx.dev(x), col = 3)
+segments(x.lap + 0.01, lap.approx.dev(x.lap + 0.01), x.lap + 0.01, -5, col = 3)
+lines(x, var.approx.dev(x), col = 4)
+segments(x.var, var.approx.dev(x.var), x.var, -5, col = 4)
+
+
 ## ---- save.plots.for.presentation ----
 ggsave("figure/points.pdf", p1, width = 6.5, height = 6.5 / 2.25)
 # ggsave("figure/can-prior.pdf", plot.can$p2.prior.line,
