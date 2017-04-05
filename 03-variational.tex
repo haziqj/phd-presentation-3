@@ -35,6 +35,7 @@
       \item The posterior distribution $p(\bz|\by)$; and
       \item The marginal likelihood (or model evidence) $p(\by)$.
     \end{itemize}
+    \item Variational inference is a deterministic approach, unlike MCMC.
   \end{itemize}
 \end{frame}
 
@@ -54,14 +55,180 @@
   \end{itemize}
 \end{frame}
 
+\begin{frame}{Comparison of approximations (density)}
+  \vspace{-5pt}
+  \only<1>{
+    \begin{center}
+      \includegraphics[scale=0.7]{figure/compare1}
+    \end{center}
+  }
+  \only<2>{
+    \begin{center}
+      \includegraphics[scale=0.7]{figure/compare2}
+    \end{center}
+  }  
+  \only<3>{
+    \begin{center}
+      \includegraphics[scale=0.7]{figure/compare3}
+    \end{center}
+  } 
+  \only<4>{
+    \begin{center}
+      \includegraphics[scale=0.7]{figure/compare4}
+    \end{center}
+  } 
+  \only<5>{
+    \begin{center}
+      \includegraphics[scale=0.7]{figure/compare5}
+    \end{center}
+  } 
+\end{frame}
 
-\begin{frame}{Comparison}
+\begin{frame}{Comparison of approximations (deviance)}
+  \vspace{-5pt}
+  \begin{center}
+    \includegraphics[scale=0.7]{figure/compare6}
+  \end{center}
 \end{frame}
-\begin{frame}{Factorised distributions (Mean field theory)}
+
+\begin{frame}{Factorised distributions (Mean-field theory)}
+  \blfootnote{\fullcite{Blei2016}}
+  \vspace{-20pt}
+  \begin{itemize}
+    \item Maximising $\cL$ over all possible $q$ not feasible. Need some restrictions, but only to achieve tractability.
+    \item Suppose we partition elements of $\bz$ into $m$ disjoint groups $\bz = (\bz^{(1)}, \dots, \bz^{(m)})$, and assume
+    \[
+      q(\bz) = \prod_{j=1}^m q_j(\bz^{(j)})
+    \]
+    \item Under this restriction, the solution to $\argmax_q \cL(q)$ is
+    \begin{align}\label{eq:meanfieldsoln}
+      \tilde q_j(\bz^{(j)}) \propto \exp\left(\E_{-j}[\log p(\by,\bz)]\right)
+    \end{align}
+    for $j \in \{1,\dots,m\}$.
+    \item In practice, these unnormalised densities are of recognisable form (especially if conjugate priors are used).
+    \vspace{4pt}
+  \end{itemize}
 \end{frame}
-\begin{frame}{Variational Bayes EM}
+
+\begin{frame}{Coordinate ascent mean-field variational inference (CAVI)}
+  \vspace{-5pt}
+  \begin{itemize}\setlength\itemsep{0.4em}
+    \item The optimal distributions are coupled with another, i.e. each $\tilde q_j(\bz^{(j)})$ depends on the optimal moments of $\bz^{(k)}$, $k \in \{1,\dots,m:k \neq j\}$.
+    \item One way around this to employ an iterative procedure.
+    \item Assess convergence by monitoring the lower bound
+    \[
+      \cL(q) = \E_{ q}[\log p(\by, \bz)] - \E_{ q}[\log q(\bz)].
+    \]
+  \end{itemize}
+  \vspace{-11pt}
+    \begin{center}
+    \scalebox{0.9}{
+    \begin{minipage}{\linewidth}
+  \begin{algorithm}[H]
+    \caption{CAVI}
+    \begin{algorithmic}[1]
+      \State \textbf{initialise} Variational factors $q_j(\bz^{(j)})$
+      \While{$\cL(q)$ not converged}
+        \For{$j = 1,\dots,m$}
+          \State $\log q_j(\bz^{(j)}) \gets \E_{-j}[\log p(\by,\bz)] + \const$
+        \EndFor
+        \State $\cL(q) \gets \E_{ q}[\log p(\by, \bz)] - \E_{ q}[\log q(\bz)]$
+      \EndWhile
+      \State \textbf{return} $\tilde q(\bz) = \prod_{j=1}^m \tilde q_j(\bz^{(j)})$
+    \end{algorithmic}
+  \end{algorithm}
+      \end{minipage}%
+    }
+  \end{center}
 \end{frame}
 
 \subsection{A simple example}
-\begin{frame}{Estimation of Gaussian mean and variance}
+
+\setbeamercovered{still covered={\opaqueness<1->{0}},again covered={\opaqueness<1->{15}}}
+\begin{frame}{Estimation of a 1-dim Gaussian mean and variance}
+  \vspace{-5pt}
+  \begin{itemize}
+    \item<1-3> GOAL: Bayesian inference of mean $\mu$ and variance $\psi^{-1}$
+    \begin{center}
+      {\def\arraystretch{1.2}
+      \begin{tabular}{c c l}
+        $\displaystyle y_i \iid \N(\mu, \psi^{-1})$ & & Data \\
+        {\color{gray!85}$\displaystyle \mu|\psi \sim \N\big(a,(b\psi)^{-1}\big)$} & & {\color{gray!85}\multirow{2}{*}{Priors}} \\
+        {\color{gray!85}$\displaystyle \psi \sim \Gamma(c,d)$} & \\
+        $\displaystyle i=1,\dots,n$ & \\
+      \end{tabular}
+      }
+    \end{center}
+    \item<2-3> Substitute $p(\mu,\psi|\by)$ with the mean-field approximation
+    \[
+      q(\mu, \psi) = q_\mu(\mu) q_\psi(\psi)
+    \]
+    \item<3-> From \eqref{eq:meanfieldsoln}, we can work out the solutions 
+    \begin{gather*}
+      \uncover<5->{
+      \hspace{-10pt}\tilde q_\mu(\mu) \equiv \N \left(\frac{ab + n\bar y}{b + n}, \frac{1}{(b + n)\E_q[\psi]} \right)}
+      \uncover<6->{
+      \ \text{ and } \ \
+      \tilde q_\psi(\psi) \equiv \Gamma(\tilde c, \tilde d) \\[0.45em]
+      \hspace{-10pt}\tilde c = c + \half[n] \hspace{1.1cm} \tilde d = d + \half \E_q\Big[ {\textstyle\sum_{i=1}^n} (y_i - \mu)^2 + b(\mu - a)^2 \Big]
+      }
+    \end{gather*}
+  \end{itemize}
+  
+  \only<4->{
+  \begin{textblock*}{0.8\textwidth}(1.35cm,0.22\textheight)
+    \begin{block}{}
+      \begin{itemize}
+        \item Under the mean-field restriction, the solution to $\argmax_q \cL(q)$ is
+        \begin{align*}
+          \tilde q_j(\bz^{(j)}) \propto \exp\left(\E_{-j}[\log p(\by,\bz)]\right)
+        \end{align*}
+        for $j \in \{1,\dots,m\}$.  
+      \end{itemize}
+    \end{block}
+  \end{textblock*}
+  }
+
 \end{frame}
+
+\begin{frame}{Estimation of a 1-dim Gaussian mean and variance (cont.)}
+  \vspace{-5pt}
+%  \only<1>{
+%    \begin{center}
+%      \includegraphics[scale=0.7]{figure/vbupdate}
+%    \end{center}
+%  } 
+  \only<1>{
+    \begin{center}
+      \includegraphics[scale=0.7]{figure/vbupdate_7}
+    \end{center}
+  } 
+  \only<2>{
+    \begin{center}
+      \includegraphics[scale=0.7]{figure/vbupdate_1}
+    \end{center}
+  } 
+  \only<3>{
+    \begin{center}
+      \includegraphics[scale=0.7]{figure/vbupdate_2}
+    \end{center}
+  } 
+  \only<4>{
+    \begin{center}
+      \includegraphics[scale=0.7]{figure/vbupdate_3}
+    \end{center}
+  } 
+  \only<5r>{
+    \begin{center}
+      \includegraphics[scale=0.7]{figure/vbupdate_4}
+    \end{center}
+  } 
+\end{frame}
+
+
+
+
+
+
+
+
