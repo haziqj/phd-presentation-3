@@ -54,8 +54,8 @@ marginal.log.lik <- sum(dnorm(ydat, mean = mu.post, sd = sqrt(1 / prec.post),
 # Data for contour plot
 plotxlim <- c(-0.4, 0.5)
 plotylim <- c(0.6, 2)
-x <- seq(plotxlim[1], plotxlim[2], length = 100)  # mean
-y <- seq(plotylim[1], plotylim[2], length = 100)  # variance
+x <- seq(plotxlim[1], plotxlim[2], length = 200)  # mean
+y <- seq(plotylim[1], plotylim[2], length = 200)  # variance
 xy <- expand.grid(x, y); names(xy) <- c("x", "y")
 z <- apply(xy, 1, dnormgamma, mu = mu.post, lambda = lambda.post,
            alpha = alpha.post, beta = beta.post)
@@ -151,10 +151,9 @@ varContourPlot <- function(iter = NULL) {
                           labels = legend.lab,
                           high = my.green, low = my.red,
                           limits = c(min.var.lb - 0.4, marginal.log.lik),
-                          na.value = alpha(my.green, 0.4)) +
-    scale_alpha_discrete(range = c(0.4, 1)) +
+                          na.value = alpha(my.green, 0.25)) +
     scale_linetype_manual(values = c(1, 13), guide = FALSE) +
-    scale_size_manual(values = c(1.8, 0.7), guide = FALSE) +
+    scale_size_manual(values = c(1.9, 0.7), guide = FALSE) +
     # geom_dl(aes(label = iteration), method = "first.bumpup") +
     theme_bw() +
     theme(legend.text = element_text(size = 10), legend.text.align = 0,

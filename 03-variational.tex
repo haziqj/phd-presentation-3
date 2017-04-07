@@ -1,8 +1,7 @@
 \subsection{Introduction}
 
-\begin{frame}{Variational inference introduction}
-  \blfootnote{\fullcite{Bishop2006}}
-  \vspace{-12pt}
+\begin{frame}{Variational inference}
+  \vspace{-10pt}
   \begin{itemize}
     \item Name derived from calculus of variations which deals with maximising or minimising functionals.
     \begin{table}
@@ -22,10 +21,13 @@
   \]
   e.g. $\cH$ is the entropy $\cH = - \int p(x)\log p(x) \d x$, and $\tilde p$ is the entropy maximising distribution.
   \end{itemize}
-  \vspace{7pt}
+  \vspace{5pt}
 \end{frame}
 
-\begin{frame}{Variational inference introduction (cont.)}
+\begin{frame}{Variational inference (cont.)}
+  \blfootnote{\fullcite[Ch. 10]{Bishop2006}}
+  \blfootnote{\fullcite[Ch. 21]{Murphy1991}}
+  \vspace{-5pt}
   \begin{itemize}\setlength\itemsep{0.8em}
     \item Consider a statistical model where we have observations $(y_1, \dots, y_n)$ and also some latent variables $(z_1, \dots, z_n)$.
     \item The $z_i$ could be random effects or some auxiliary latent variables.
@@ -102,7 +104,7 @@
     \]
     \item Under this restriction, the solution to $\argmax_q \cL(q)$ is
     \begin{align}\label{eq:meanfieldsoln}
-      \tilde q_j(\bz^{(j)}) \propto \exp\left(\E_{-j}[\log p(\by,\bz)]\right)
+      \tilde q_j(\bz^{(j)}) \propto \exp\big(\E_{-j}[\log p(\by,\bz)]\big)
     \end{align}
     for $j \in \{1,\dots,m\}$.
     \item In practice, these unnormalised densities are of recognisable form (especially if conjugate priors are used).
@@ -153,8 +155,8 @@
       {\def\arraystretch{1.2}
       \begin{tabular}{c c l}
         $\displaystyle y_i \iid \N(\mu, \psi^{-1})$ & & Data \\
-        {\color{gray!85}$\displaystyle \mu|\psi \sim \N\big(a,(b\psi)^{-1}\big)$} & & {\color{gray!85}\multirow{2}{*}{Priors}} \\
-        {\color{gray!85}$\displaystyle \psi \sim \Gamma(c,d)$} & \\
+        {\color{gray!85}$\displaystyle \mu|\psi \sim \N\big(\mu_0,(\kappa_0\psi)^{-1}\big)$} & & {\color{gray!85}\multirow{2}{*}{Priors}} \\
+        {\color{gray!85}$\displaystyle \psi \sim \Gamma(a_0,b_0)$} & \\
         $\displaystyle i=1,\dots,n$ & \\
       \end{tabular}
       }
@@ -164,24 +166,37 @@
       q(\mu, \psi) = q_\mu(\mu) q_\psi(\psi)
     \]
     \item<3-> From \eqref{eq:meanfieldsoln}, we can work out the solutions 
+    
+    \only<5>{
+    \begin{align*}
+      \log \tilde q_\mu(\mu) 
+      &= \E_\psi[\log p(\by|\mu,\psi)] + \E_\psi[\log p(\mu|\psi)] + \const \\[0.5em]
+    \log \tilde q_\psi(\psi) 
+    &= \E_\mu[\log p(\by|\mu,\psi)] + \E_\mu[\log p(\mu|\psi)] + \log p(\psi) \\
+    &\phantom{==} + \const
+    \end{align*}
+    }
+    
+    \vspace{-3pt}
     \begin{gather*}
-      \uncover<5->{
-      \hspace{-10pt}\tilde q_\mu(\mu) \equiv \N \left(\frac{ab + n\bar y}{b + n}, \frac{1}{(b + n)\E_q[\psi]} \right)}
       \uncover<6->{
+      \hspace{-12pt}\tilde q_\mu(\mu) \equiv \N \left(\frac{\kappa_0 \mu_0 + n\bar y}{\kappa_0 + n}, \frac{1}{(\kappa_0 + n)\E_q[\psi]} \right)}
+      \uncover<7->{
       \ \text{ and } \ \
-      \tilde q_\psi(\psi) \equiv \Gamma(\tilde c, \tilde d) \\[0.45em]
-      \hspace{-10pt}\tilde c = c + \half[n] \hspace{1.1cm} \tilde d = d + \half \E_q\Big[ {\textstyle\sum_{i=1}^n} (y_i - \mu)^2 + b(\mu - a)^2 \Big]
+      \tilde q_\psi(\psi) \equiv \Gamma(\tilde a, \tilde b) \\[0.5em]
+      \hspace{-12pt}\tilde a = a_0 + \half[n] \hspace{1.1cm} \tilde b = b_0 + \half \E_q\Big[ {\textstyle\sum_{i=1}^n} (y_i - \mu)^2 + \kappa_0(\mu - \mu_0)^2 \Big]
       }
     \end{gather*}
   \end{itemize}
   
   \only<4->{
-  \begin{textblock*}{0.8\textwidth}(1.35cm,0.22\textheight)
+  \begin{textblock*}{0.8\textwidth}(1.35cm,0.215\textheight)
     \begin{block}{}
       \begin{itemize}
         \item Under the mean-field restriction, the solution to $\argmax_q \cL(q)$ is
         \begin{align*}
-          \tilde q_j(\bz^{(j)}) \propto \exp\left(\E_{-j}[\log p(\by,\bz)]\right)
+          \tilde q_j(\bz^{(j)}) \propto \exp\big(\E_{-j}[\log p(\by,\bz)]\big)
+          \rlap{\hspace{1.3cm}(1)}
         \end{align*}
         for $j \in \{1,\dots,m\}$.  
       \end{itemize}
@@ -218,7 +233,7 @@
       \includegraphics[scale=0.7]{figure/vbupdate_3}
     \end{center}
   } 
-  \only<5r>{
+  \only<5>{
     \begin{center}
       \includegraphics[scale=0.7]{figure/vbupdate_4}
     \end{center}
