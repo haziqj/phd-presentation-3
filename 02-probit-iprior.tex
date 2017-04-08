@@ -25,11 +25,13 @@
 
 \subsection{Using I-priors}
 \begin{frame}{Using I-priors}
-  \begin{itemize}
+  \vspace{-5pt}
+  \begin{itemize}\setlength\itemsep{0.5em}
     \item Assume an I-prior on $f$. Then,
     \begin{align*}
       \begin{gathered}
-        f(x_i) = \alpha + \sum_{k=1}^n h_\lambda(x_i, x_k)w_k \\
+        f(x_i) = {\color{gray} \overbrace{\color{black} \alpha}^{f_0(x_i)}} 
+        + \sum_{k=1}^n h_\lambda(x_i, x_k)w_k \\
         (w_1, \dots, w_n) \sim \N(\bzero, \bPsi) \\
       \end{gathered}
     \end{align*}
@@ -49,32 +51,43 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{The probit I-prior model}
-  \vspace{3pt}
+\begin{frame}{The I-prior probit model}
   \begin{tikzpicture}[scale=1.1, transform shape]
     \tikzstyle{main}=[circle, minimum size = 10mm, thick, draw =black!80, node distance = 16mm]
     \tikzstyle{connect}=[-latex, thick]
     \tikzstyle{box}=[rectangle, draw=black!100]
       \node[main, draw=none] (fake) {};
-      \node[main, fill = black!10] (H) [right=of fake, xshift=-1.65cm] {$x$};
-      \node[main] (eta) [right=of H] {$f$};
-      \node[main] (ystar) [right=of eta] {$y^*$};
-      \node[main] (lambda) [above=of H, xshift=0.8cm, yshift=-0.5cm] {$\lambda$};
-      \node[main] (alpha) [above=of eta, xshift=1.2cm, yshift=-0.5cm] {$\alpha$};  
-      \node[main, fill = black!10] (y) [right=of ystar] {$y$};
-      \node[main] (w) [below=of eta, yshift=0.5cm] {$w$};
-    %  \node[main, fill = black!10] (x) [below=of eta,label=below:$x$] { };
+      \node[main, fill = black!10] (H) [right=of fake, xshift=-1.65cm] {$x_i$};
+      \node[main, double, double distance=0.6mm] (eta) [right=of H] {$f_i$};
+      \node[main, double, double distance=0.6mm] (ystar) [right=of eta] {$p_i$};
+      \node[main, draw=colblu] (lambda) [above=of H, xshift=0.4cm, yshift=-0.4cm] {\color{colblu} $\lambda$};  %
+      \node[main, draw=colgre] (alpha) [above=of eta, yshift=0.3cm] {\color{colgre} $\alpha$};  
+      \node[main, fill = black!10] (y) [right=of ystar] {$y_i$};
+      \node[main, draw=colred] (w) [below=of eta, yshift=0.4cm] {\color{colred} $w_i$};  
       \path (alpha) edge [connect] (eta)
             (lambda) edge [connect] (eta)
     		(H) edge [connect] (eta) 
-    		(eta) edge [connect] (ystar)
+    		(eta) edge [connect] node [above] {$\Phi$} (ystar)
     		(ystar) edge [connect] (y)
-    		(w) edge [connect] (eta);
-      \path (H) edge [] node [above] {$h$} (eta);
+    		(w) edge [connect] (eta)
+            (H) edge [] node [above] {$h$} (eta);
       \node[rectangle, draw=black!100, fit= (H) (y) (w) ] {}; 
-      \node[rectangle, fit= (w) (y), label=below right:N, xshift=1cm] {};  % the label
+      \node[rectangle, fit= (w) (y), label=below right:{$i=1,\dots,n$}, xshift=-0.35cm, yshift=0.55cm] {};  % the label
     \end{tikzpicture}
-    *ADD JOINT DISTRIBUTIONS AND COLOUR CODE*
+    
+    \begin{textblock*}{0.48\textwidth}(0.52\textwidth,0.55cm)
+    \begin{block}{}
+    \vspace{-1.6em}
+      \begin{align*}
+        &p(\by,\bw,\alpha,\lambda)  \\
+        &= p(\by|\bff)p(\bw)p(\lambda)p(\alpha) \\
+        &= {\textstyle\prod_{i=1}^n} \Phi(f_i)^{y_i} \big(1 - \Phi(f_i)\big)^{1-y_i} \\
+        &\phantom{==} \cdot {\color{colred} [\N(0,1)]^n} 
+        \cdot {\color{colblu} \N(\lambda_0,\kappa_0^{-1})} \\
+        &\phantom{==} {\color{colgre} \N(\alpha_0,\tau_0^{-1})}
+      \end{align*}
+    \end{block}
+  \end{textblock*}
 \end{frame}
 
 \subsection{Estimation (and challenges)}

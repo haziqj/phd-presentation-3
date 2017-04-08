@@ -42,18 +42,21 @@
 
 \begin{frame}{I-priors (cont.)}
   \blfootnote{\fullcite{Jamil2017}}  
-  \begin{itemize}
-    \item Of interest is the posterior of the function
+  \vspace{-5pt}
+  \begin{itemize}\setlength\itemsep{0.8em}
+    \item Of interest is the posterior regression function characterised by the distribution
     \[
       p(\bff | \by ) = \frac{p(\by | \bff) p(\bff)}{\int p(\by | \bff) p(\bff) \d\bff},
     \]
-    and also the posterior predictive distribution
+    and also the posterior predictive distribution for new data points $x_{\text{new}}$
     \[
-      p(\by^* | \by ) = \int p(\by^* | \by, \bff ) p(\bff | \by ) \d\bff.
+      p(y_{\text{new}} | \by) = \int p(y_{\text{new}} | \by, f_{\text{new}}) p(f_{\text{new}} | \by ) \d f_{\text{new}}
     \]
+    with $f_{\text{new}} = f(x_{\text{new}})$.
     \item Estimation using EM algorithm or direct maximisation of the marginal likelihood $\log p(y)$.
-    \item Fully Bayesian estimation also possible.
+    \item Complete Bayesian estimation also possible.
   \end{itemize}
+  \vspace{5pt}
 \end{frame}
 
 %\begin{frame}{Canonical/Linear RKHS}

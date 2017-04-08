@@ -110,6 +110,7 @@ plot1 <- function(kernel, no.of.draws = 100) {
     VarY.inv <- solve(Vy)
     H.star <- fnH4(x = x, y = x.true, l = mod.se$par[3])
     y.fitted <- as.numeric(mean(y) + lambda * H.star %*% w.hat)
+    y.fitted2 <- as.numeric(mean(y) + lambda * H %*% w.hat)
   } else {
     if (kernel == "Canonical") {
       mod <- iprior(kernL(y, x, model = list(kernel = "Canonical")))
@@ -121,16 +122,15 @@ plot1 <- function(kernel, no.of.draws = 100) {
     }
     # Estimated values  ----------------------------------------------------------
     y.fitted <- predict(mod, list(matrix(x.true, ncol = 1)))
+    y.fitted2 <- fitted(mod)
     lambda <- mod$lambda
     psi <- mod$psi
     w.hat <- mod$w.hat
     H <- mod$ipriorKernel$Hl[[1]]
-    VarY.inv <- solve(vary(mod))
+    H2 <- H %*% H
+    Vy <- vary(mod)
+    VarY.inv <- solve(Vy)
   }
-
-  # Posterior covariance matrix for f ------------------------------------------
-  Varf <- lambda ^ 2 * H.star %*% VarY.inv %*% t(H.star)
-  Varf <- Varf + diag(1e-12, nrow(H.star))
 
   # Prepare random draws from prior and posterior ------------------------------
   draw.pri <- draw.pos <- matrix(NA, ncol = no.of.draws, nrow = nrow(H.star))
@@ -157,13 +157,14 @@ plot1 <- function(kernel, no.of.draws = 100) {
                         type = "95% credible interval")
 
   # Prepare random draws for posterior predictive checks -----------------------
-  ppc <- matrix(NA, ncol = no.of.draws, nrow = nrow(H.star))
-  L <- chol(VarY.stary)
+  VarY.hat <- Vy - (psi ^ 2) * (lambda ^ 4) * H2 %*% VarY.inv %*% H2
+  ppc <- matrix(NA, ncol = no.of.draws, nrow = nrow(H))
+  L <- chol(VarY.hat)
   for (i in 1:no.of.draws) {
-    ppc[, i] <- y.fitted + crossprod(L, rnorm(nrow(H.star)))
-    # ppc[, i] <- y.fitted + rnorm(nrow(H.star), sd = dat.fit$sdev)
+    ppc[, i] <- y.fitted2 + crossprod(L, rnorm(n))
+    # ppc[, i] <- y.fitted2 + rnorm(n, sd = sqrt(diag(VarY.hat)))
   }
-  melted.ppc <- melt(data.frame(x = x.true, ppc = ppc), id.vars = "x")
+  melted.ppc <- melt(data.frame(x = x, ppc = ppc), id.vars = "x")
   melted.ppc <- cbind(melted.ppc, type = "Posterior predictive check")
 
   # Random draws from prior and posterior function -----------------------------

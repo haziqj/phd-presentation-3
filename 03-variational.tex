@@ -122,12 +122,12 @@
       \cL(q) = \E_{ q}[\log p(\by, \bz)] - \E_{ q}[\log q(\bz)].
     \]
   \end{itemize}
-  \vspace{-11pt}
+  \vspace{-12pt}
     \begin{center}
     \scalebox{0.9}{
     \begin{minipage}{\linewidth}
   \begin{algorithm}[H]
-    \caption{CAVI}
+    \caption{CAVI}\label{alg:cavi}
     \begin{algorithmic}[1]
       \State \textbf{initialise} Variational factors $q_j(\bz^{(j)})$
       \While{$\cL(q)$ not converged}

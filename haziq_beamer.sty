@@ -275,6 +275,17 @@
 \let\proglang=\textsf
 \newcommand{\pkg}[1]{{\fontseries{b}\selectfont #1}}
 
+% Colour-blind safe pallete
+\definecolor{colblu}{RGB}{51,102,170}
+\definecolor{colcya}{RGB}{17,170,153}
+\definecolor{colgre}{RGB}{102,170,85}
+\definecolor{colgyl}{RGB}{204,204,85}
+\definecolor{colgry}{RGB}{119,119,119}
+\definecolor{colpur}{RGB}{153,34,136}
+\definecolor{colred}{RGB}{238,51,51}
+\definecolor{colora}{RGB}{238,119,34}
+\definecolor{colyel}{RGB}{255,238,51}
+
 % Coding
 %\usepackage{verbatim}
 %\usepackage{moreverb}
@@ -338,7 +349,7 @@
 	\newcommand{\subfloat}[2][need a sub-caption]{\subcaptionbox{#1}{#2}}  % knitr
 \usepackage{rotfloat}	
 \usepackage{tikz}
-\usetikzlibrary{fit,positioning}
+\usetikzlibrary{fit,positioning,shapes.geometric}
 
 % Tables
 \usepackage{longtable}
