@@ -8,4 +8,4 @@ An extension of the I-prior methodology to binary response data is explored. Sta
 
 *Keywords*: binary, probit, regression, kernel, RKHS, Gaussian, process, multilevel, longitudinal, functional, prior, variational, Bayes, EM
 
-Copyright (C) 2016 [Haziq Jamil](http://haziqj.ml). All rights reserved.
+Copyright (C) 2017 [Haziq Jamil](http://haziqj.ml). All rights reserved.
