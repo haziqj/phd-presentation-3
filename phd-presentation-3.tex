@@ -1,6 +1,8 @@
-\documentclass{beamer}
+\documentclass[]{beamer}
 %\documentclass[xcolor={dvipsnames}, handout]{beamer} %for printing
 \usepackage{haziq_beamer}
+\usepackage{knitr}
+\graphicspath{{figure/}{R/figure/}}
 \bibliography{bib/phd-presentation-3}
 \begin{document}
 
@@ -34,23 +36,27 @@ PhD Presentation Event\\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Introduction}
-%\input{01-introduction}
+\input{01-introduction}
 
 \section[Probit with I-priors]{Probit models with I-priors}
-%\transition
-%\input{02-probit-iprior}
+\transition
+\input{02-probit-iprior}
 
-\section[Variational]{Variational inference}
+%\section[Variational]{Variational inference}
 %\transition
 %\input{03-variational}
-
-\section{Implementation}
+%
+%\section{Implementation}
 %\transition
-\input{04-r-code}
-
-\section{Summary}
+%\input{04-examples}
+%\begin{frame}{R/\texttt{iprobit}}
+%  \blfootnote{\fullcite{Jamil2017iprobit}}
+%\end{frame}
+%\subsection{Examples}
+%
+%\section{Summary}
 %\transition
-%\input{06-discussion}
+%\input{05-summary}
 
 \section*{End}
 
@@ -63,13 +69,13 @@ PhD Presentation Event\\
 \end{frame}
 }
 
-%\appendix
+\appendix
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% REFERENCES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%\refslide
+\refslide
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

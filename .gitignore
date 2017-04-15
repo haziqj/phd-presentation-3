@@ -26,3 +26,10 @@ bib/soc-stat-meet-tools.bib
 bib/iprior-r-package.bib
 
 bib/EM Algorithms.bib
+.Rproj.user
+
+R/data/smokingmod
+
+R/cache
+
+R/smoking*

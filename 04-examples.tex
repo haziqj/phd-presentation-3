@@ -98,37 +98,9 @@
       &= \const + \sum_{i=1}^n \left(y_i \log \Phi(\tilde f_i) + (1-y_i) \log \big(1 - \Phi(\tilde f_i)\big)\right) \\
       &\phantom{==}-\half \left( \tr\tilde\bV_w + \tr (\tilde\bw\tilde\bw^\top) - \log \vert \tilde\bV_w \vert + \log \tilde v_\lambda \right) 
     \end{align*}
-    \item ISSUE: Different initialisation leads to different converged lower bound values indicating presence of many local optima.
+    \item (possible) ISSUE: Different initialisations lead to different converged lower bound values indicating presence of many local optima.
   \end{itemize}
 \end{frame}
-
-\begin{frame}{R/\texttt{iprobit}}
-  \blfootnote{\fullcite{Jamil2017iprobit}}
-\end{frame}
-
-\subsection{Examples}
-
-\begin{frame}{Fisher's Iris data set}
-1. Intro. Combine some groups so binary classification problem. For illustration just use sepal length and width (to get nice plots).
-2. Fit model. Syntax. Summary.
-3. Multiple starting values leads to different L.
-4. Plot LB. Plot decision boundary.
-\end{frame}
-
-\begin{frame}{Cardiac arrhythmia data set}
-1. Intro. Number of covariates.
-2. Subsample, fit and get SE for out-of-sample test error rates.
-3. Compare with other classifiers.
-\end{frame}
-
-\begin{frame}{Multilevel example}
-Not sure what yet. Something that latent propensities might be worth measuring? Maybe fitted probabilities too.
-\end{frame}
-
-
-
-
-
 
 
 

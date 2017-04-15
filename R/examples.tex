@@ -1,0 +1,283 @@
+\documentclass{beamer}\usepackage[]{graphicx}\usepackage[]{color}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+\usepackage{../haziq_beamer}
+
+
+
+
+
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+
+\begin{frame}[fragile]{Fisher's Iris data set}
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+
+{\centering \includegraphics[width=\maxwidth]{figure/data_iris-1} 
+
+}
+
+
+
+\end{knitrout}
+\end{frame}
+
+
+\begin{frame}[fragile]{Fisher's Iris data set - Model fitting}
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{R> }\hlkwd{system.time}\hlstd{(}
+\hlstd{+ }  \hlstd{(mod} \hlkwb{<-} \hlkwd{iprobit}\hlstd{(y, X))}
+\hlstd{+ }\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{verbatim}
+## 
+## |==================                              |  61%
+##  Converged after 6141 iterations.
+##  Training error rate: 0 %
+##     user  system elapsed
+##   67.857   6.396  74.277
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+\end{frame}
+
+\begin{frame}[fragile]{Fisher's Iris data set - Model summary}
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{R> }\hlkwd{summary}\hlstd{(mod)}
+\end{alltt}
+\begin{verbatim}
+## 
+## Call:
+## iprobit(y = y, X, maxit = 10000)
+## 
+## RKHS used: Canonical 
+## 
+##           Mean   S.E.    2.5%   97.5%
+## alpha  -4.1730 0.0816 -4.3330 -4.0129
+## lambda  1.2896 0.0142  1.2618  1.3175
+## 
+## Converged to within 1e-05 tolerance. No. of iterations: 6141
+## Model classification error rate (%): 0
+## Variational lower bound: -12.93486
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+\end{frame}
+
+\begin{frame}[fragile]{Fisher's Iris data set - Lower bound}
+\begin{itemize}
+\item Monitoring the lower bound (first 10 iterations)
+\end{itemize}
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{R> }\hlkwd{iplot_lb}\hlstd{(mod,} \hlkwc{niter.plot} \hlstd{=} \hlnum{10}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-3-1} 
+
+}
+
+
+
+\end{knitrout}
+\end{frame}
+
+\begin{frame}[fragile]{Fisher's Iris data set - Decision boundary}
+\vspace{-5pt}
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{R> }\hlkwd{iplot_decbound}\hlstd{(mod)}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-4-1} 
+
+}
+
+
+
+\end{knitrout}
+\end{frame}
+
+\begin{frame}[fragile]{Cardiac arrhythmia data set}
+\blfootnote{https://archive.ics.uci.edu/ml/datasets/Arrhythmia}
+\vspace{-20pt}
+\begin{itemize}
+% \item Original data set contains 16 classes of arrhythmia .
+\item Distinguish between the presence and absence of cardiac arrhythmia based on ECG data ($n = 451, p = 194$).
+\end{itemize}
+
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+
+{\centering \includegraphics[width=\maxwidth]{figure/plot_cardiac-1} 
+
+}
+
+
+
+\end{knitrout}
+\end{frame}
+
+
+\begin{frame}[fragile]{Cardiac arrhythmia data set - Model fit}
+\blfootnote{Cannings cite} %\fullcite{Cannings2017}
+\vspace{-20pt}
+\begin{itemize}
+  \item Fit an I-prior probit model using Canonical and FBM kernel. The full data set takes about 35 seconds.
+\end{itemize}
+\vspace{-5pt}
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{R> }\hlstd{mod} \hlkwb{<-} \hlkwd{iprior}\hlstd{(y, X,} \hlkwc{kernel} \hlstd{=} \hlstr{"FBM"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+\vspace{-10pt}
+% <<>>=
+% mod$time
+% @
+\begin{itemize}
+  \item Compare against popular classifiers: 1) $k$-nearest n3eighbours; 2) support vector machine; 3) Gaussian process classification; 4) random forests; 5) nearest shrunken centroids (Tibshirani et. al., 2003); and 6) L-1 penalised logistic regression. %\cite{tibshirani2003class}
+  \vspace{0.5em}
+  \item Experiment set-up:
+  \begin{itemize}
+    \item Form training set by sub-sampling $n_{\text{sub}} \in \{50, 100, 200 \}$ data points.
+    \item Use remaining data as test set.
+    \item Fit model on training set and obtain test error rates.
+    \item Repeat 100 times to obtain standard errors.
+  \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Cardiac arrhythmia data set - Results}
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-6-1} 
+
+}
+
+
+
+\end{knitrout}
+\end{frame}
+
+\begin{frame}[fragile]{Meta-analysis of smoking cessation}
+  \blfootnote{cite Rabe Hasketh Skrondall}
+  \begin{itemize}
+    \item Data from 27 separate smoking cessation studies, where participants subjected to nicotine gum treatment or placed in control group.
+    \item Some summary statistics:
+  \end{itemize}
+
+\begin{center}
+
+\begin{tabular}{l|r|r|r|r|r}
+\hline
+  & Min & Average & Max & Prop. quit & Odds quit\\
+\hline
+Control & 20 & 101 & 617 & 0.207 & 0.261\\
+\hline
+Treated & 21 & 117 & 600 & 0.320 & 0.470\\
+\hline
+\end{tabular}
+
+
+\end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Meta-analysis of smoking cessation - model}
+  \begin{itemize}
+    \item Let $i = 1,\dots,n_j$ index the patients in study group $j \in 1,\dots,27$.
+    \item Denote $y_{ij}$ as the binary response variable indicating \texttt{Quit} (1) or \texttt{Remain} (0), and $x_{ij}$ indicating which treatment group the patient is in.
+    \item Model binary data using I-probit model
+    \begin{align*}
+      \Phi^{-1}(p_{ij}) &= f(x_{ij}, j) \\
+      &= f_1(x_{ij}) + f_2(j) + f_{12}(x_{ij}, j)
+    \end{align*}
+    with $f_1, f_2 \in$ Pearson RKHS, and $f_{12} \in$ ANOVA RKHS.
+  \end{itemize}
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Meta-analysis of smoking cessation - results}
+\vspace{-3pt}
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+
+{\centering \includegraphics[width=\maxwidth]{figure/plot_smoke-1} 
+
+}
+
+
+
+\end{knitrout}
+\end{frame}
+\end{document}

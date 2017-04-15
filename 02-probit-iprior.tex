@@ -2,12 +2,12 @@
 
 \begin{frame}{The latent variable motivation}
   \begin{itemize}
-    \item Consider binary responses $y_1, \dots, y_n$ together with their corresponding covariates $x_1, \dots, x_n$. 
-    \item For $i=1,\dots,n$, model the responses as
+    \item<1-> Consider binary responses $y_1, \dots, y_n$ together with their corresponding covariates $x_1, \dots, x_n$. 
+    \item<1-> For $i=1,\dots,n$, model the responses as
     \[
       y_i \sim \Bern(p_i).
     \]
-    \item Assume that there exists continuous, underlying latent variables $y_1^*, \dots, y_n^*$, such that
+    \item<2-> Assume that there exists continuous, underlying latent variables $y_1^*, \dots, y_n^*$, such that
     \[
       y_i =
       \begin{cases}
@@ -15,7 +15,7 @@
         0 & \text{ if } y_i^* < 0.    \\
       \end{cases}
     \]
-    \item Model these continuous latent variables according to
+    \item<3-> Model these continuous latent variables according to
     \[
       y_i^* = f(x_i) + \epsilon_i
     \]
@@ -27,15 +27,27 @@
 \begin{frame}{Using I-priors}
   \vspace{-5pt}
   \begin{itemize}\setlength\itemsep{0.5em}
+    \only<1|handout:0>{
     \item Assume an I-prior on $f$. Then,
     \begin{align*}
       \begin{gathered}
-        f(x_i) = {\color{gray} \overbrace{\color{black} \alpha}^{f_0(x_i)}} 
+        f(x_i) = {\color{white} \overbrace{\color{black} f_0(x_i)}^{\alpha}} 
         + \sum_{k=1}^n h_\lambda(x_i, x_k)w_k \\
         (w_1, \dots, w_n) \sim \N(\bzero, \bPsi) \\
       \end{gathered}
     \end{align*}
-    \item For now, consider iid errors $\bPsi = \psi\bI_n$. In this case,
+    }
+    \only<2->{
+    \item Assume an I-prior on $f$. Then,
+    \begin{align*}
+      \begin{gathered}
+        f(x_i) = {\color{gray} \overbrace{\color{black} f_0(x_i)}^{\alpha}} 
+        + \sum_{k=1}^n h_\lambda(x_i, x_k)w_k \\
+        (w_1, \dots, w_n) \sim \N(\bzero, \bPsi) \\
+      \end{gathered}
+    \end{align*}
+    }
+    \item<2-> For now, consider iid errors $\bPsi = \psi\bI_n$. \onslide<3->{In this case,
     \begin{align*}
       p_i = \Prob[y_i = 1] &= \Prob[y_i^* \geq 0] \\
       &= \Prob[\epsilon_i \leq f(x_i)] \\
@@ -46,8 +58,8 @@
       \alpha + {\textstyle\sum_{k=1}^n} h_\lambda(x_i, x_k)w_k
       ) \Big)
     \end{align*}
-    where $\Phi$ is the CDF of a standard normal.
-    \item No loss of generality compared with using an arbitrary threshold $\tau$ or error precision $\psi$. Thus, set $\psi = 1$.
+    where $\Phi$ is the CDF of a standard normal.}
+    \item<4-> No loss of generality compared with using an arbitrary threshold $\tau$ or error precision $\psi$. Thus, set $\psi = 1$.
   \end{itemize}
 \end{frame}
 
@@ -141,7 +153,7 @@
 \begin{frame}{Laplace's method}
   \blfootnote{\fullcite[§4.1, pp. 777-778.]{Kass1995}}
   \vspace{-15pt}
-  \begin{itemize}\setlength\itemsep{0.8em}
+  \begin{itemize}[<+->]\setlength\itemsep{0.8em}
     \item Interested in $p(\bff|\by) \propto p(\by|\bff)p(\bff) =: e^{Q(\bff)}$, with normalising constant $p(\by) = \int e^{Q(\bff)} \d\bff$. The Taylor expansion of $Q$ about its mode $\tilde\bff$
     \[
       Q(\bff) \approx Q(\tilde\bff) - \half (\bff - \tilde\bff)^\top\bA(\bff - \tilde\bff) 
@@ -156,6 +168,7 @@
 \end{frame}
 
 \begin{frame}{Full Bayesian analysis using MCMC}
+  \vspace{-3pt}
   \begin{itemize}\setlength\itemsep{0.5em}
     \item Assign hyperpriors on parameters of the I-prior, e.g.
     \begin{itemize}
@@ -166,7 +179,9 @@
     \item No closed-form posteriors - need to resort to MCMC sampling.
     \item Computationally slow, and sampling difficulty results in unreliable posterior samples.
   \end{itemize}
-  *DENSITY PLOTS OF LAMBDA HERE*
+  \begin{center}
+    \includegraphics[scale=0.6]{mcmc1}
+  \end{center}
 \end{frame}
 
 

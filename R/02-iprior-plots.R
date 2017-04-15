@@ -1,13 +1,4 @@
-## ---- prelim ----
-library(iprior)
-library(ggplot2)
-library(gganimate)
-library(reshape2)
-library(directlabels)
-gg_colour_hue <- function(n) {
-  hues = seq(15, 375, length = n + 1)
-  hcl(h = hues, l = 65, c = 100)[1:n]
-}
+source("01-prelim.R")
 
 ## ---- points ----
 set.seed(123)
@@ -249,286 +240,32 @@ plot.fbm <- plot1("FBM")
 ## ---- se.kernel.mle ----
 plot.se <- plot1("SE")
 
-## ---- variational.comparison ----
-# The pdf to approximate
-rx <- function(x) {
-  exp(-(x ^ 2) / 2) / (1 + exp(-(20 * x + 4)))
-}
-const <- 1 / integrate(rx, -Inf, Inf)$value
-px <- function(x) {
-  rx(x) * const
-}
-dev <- function(x) -2 * log(px(x))
-EX <- integrate(function(x) x * px(x), -Inf, Inf)$value
-EX2 <- integrate(function(x) (x ^ 2) * px(x), -Inf, Inf)$value
-VarX <- EX2 - EX ^ 2
-x.hat <- optim(0, dev, method = "BFGS")$par
-
-# Laplace approximation
-tmp <- optim(0, function(x) -log(rx(x)), method = "BFGS", hessian = TRUE)
-mode.p <- tmp$par
-var.p <- 1 / tmp$hessian
-lap.approx <- function(x) dnorm(x, mean = mode.p, sd = sqrt(var.p))
-lap.approx.dev <- function(x) -2 * log(lap.approx(x))
-x.lap <- optim(0, lap.approx.dev, method = "BFGS")$par
-
-# Variational approximation
-var.approx <- function(x) dnorm(x, mean = EX, sd = sqrt(VarX))
-var.approx.dev <- function(x) -2 * log(var.approx(x))
-x.var <- optim(0, var.approx.dev, method = "BFGS")$par
-
-# Density plots
-p6 <- function(mode = FALSE, laplace = FALSE, mean = FALSE, variational = FALSE) {
-  x <- seq(-2, 3, length = 1000)
-  den.df.full <- data.frame(x = x, Truth = px(x), Laplace = lap.approx(x),
-                            Variational = var.approx(x))
-  dl.list <- list("top.bumptwice",
-                  dl.move("Truth", 0.3, 0.69),
-                  dl.move("Laplace", -0.54, 0.55),
-                  dl.move("Variational", 1.2, 0.60))
-  thecol <- gg_colour_hue(3)
-  if (isTRUE(laplace)) {
-    if (isTRUE(variational)) {
-      den.df <- den.df.full
-    } else {
-      den.df <- den.df.full[, -4]
-      thecol <- thecol[1:2]
-    }
-  } else {
-    den.df <- den.df.full[, -(3:4)]
-    thecol <- thecol[1]
-  }
-  den.df <- melt(den.df, id.vars = "x")
-
-  p <- ggplot(data = den.df, aes(x = x, y = value, group = variable)) +
-    geom_line(aes(col = variable)) +
-    scale_colour_manual(values = thecol) +
-    scale_fill_manual(values = thecol) +
-    scale_x_continuous(
-      breaks = NULL, name = expression(italic(z))
-    ) +
-    scale_y_continuous(
-      limits = c(-0.03, px(x.hat) + 0.05),
-      breaks = NULL, name = "Density"
-    ) +
-    theme_bw() +
-    theme(legend.position = "none")
-
-  if (isTRUE(mode)) {
-    p <- p +
-      geom_vline(xintercept = x.hat, linetype = 2, col = thecol[1]) +
-      annotate("text", label = "mode", col = thecol[1], x = x.hat - 0.2, y = -0.03)
-  }
-  if (isTRUE(mean)) {
-    p <- p +
-      geom_vline(xintercept = EX, linetype = 2, col = thecol[1]) +
-      annotate("text", label = "mean", col = thecol[1], x = EX + 0.2, y = -0.03)
-  }
-
-  p <- p +
-    geom_area(aes(fill = variable), alpha = 0.3, position = "identity") +
-    geom_dl(aes(label = variable, col = variable), method = dl.list)
-
-  p
-}
-
-# Deviance plots
-p7 <- function() {
-  x <- seq(-0.5, 1, length = 1000)
-  dev.df.full <- data.frame(x = x, Truth = dev(x), Laplace = lap.approx.dev(x),
-                            Variational = var.approx.dev(x))
-  dev.df <- melt(dev.df.full, id.vars = "x")
-  thecol <- gg_colour_hue(3)
-
-  p <- ggplot(data = dev.df, aes(x = x, y = value, group = variable)) +
-    geom_line(aes(col = variable), size = 0.9) +
-    geom_segment(x = x.hat, y = dev(x.hat), xend = x.hat, yend = -2,
-                 col = thecol[1], linetype = 2) +
-    geom_segment(x = x.lap + 0.01, y = lap.approx.dev(x.lap + 0.01),
-                 xend = x.lap + 0.01, yend = -2,
-                 col = thecol[2], linetype = 2) +
-    geom_segment(x = x.var, y = var.approx.dev(x.var), xend = x.var, yend = -2,
-                 col = thecol[3], linetype = 2) +
-    scale_colour_manual(values = thecol) +
-    scale_x_continuous(
-      limits = c(-0.5, 1.18),
-      breaks = NULL, name = expression(italic(z))
-    ) +
-    scale_y_continuous(
-      limits = c(-1, 7),
-      breaks = NULL, name = expression(paste("Deviance (", -2, " x Log-density)"))
-    ) +
-    geom_dl(aes(label = variable, col = variable), method = "last.bumpup") +
-    theme_bw() +
-    theme(legend.position = "none")
-
-  p
-}
-
-
-## ---- variational.example ----
-# Simulate data from N(10, 4)
-set.seed(123)
-n <- 30
-mu <- 0
-psi <- 1
-ydat <- rnorm(n, mean = 0, sd = sqrt(1 / psi))
-s <- var(ydat) * (n - 1) / n
-
-# pdf of normal gamma
-dnormgamma <- function(x, mu = 0, lambda = 1, alpha = 1, beta = 1) {
-  const <- alpha * log(beta) + 0.5 * log(lambda) - lgamma(alpha) - 0.5 * log(2 * pi)
-  res <- const + (alpha - 0.5) * log(x[2]) - beta * x[2] -
-    lambda * x[2] * (x[1] - mu) ^ 2 / 2
-  exp(res)
-}
-
-# pdf of variational approximation
-dvarapprox <- function(x, mean.mu, var.mu, shape.psi, rate.psi) {
-  dnorm(x[1], mean = mean.mu, sd = sqrt(var.mu)) *
-    dgamma(x[2], shape = shape.psi, rate = rate.psi)
-}
-
-# Exact parameters of the posterior
-lambda0 <- 0.01
-mu0 <- 0
-alpha0 <- 0.01
-beta0 <- 0.01
-mu.post <- (lambda0 * mu0 + n * mean(ydat)) / (lambda0 + n)
-lambda.post <- lambda0 + n
-alpha.post <- alpha0 + n / 2
-beta.post <- beta0 + 0.5 * (n * s + lambda0 * n * (mean(ydat) - mu0) ^ 2 / (lambda0 + n))
-mu.post  # estimate of mean
-alpha.post / beta.post  # estimate of precision
-
-# Data for contour plot
-plotxlim <- c(-0.4, 0.5)
-plotylim <- c(0.5, 1.8)
-x <- seq(plotxlim[1], plotxlim[2], length = 50)  # mean
-y <- seq(plotylim[1], plotylim[2], length = 50)  # variance
-xy <- expand.grid(x, y); names(xy) <- c("x", "y")
-z <- apply(xy, 1, dnormgamma, mu = mu.post, lambda = lambda.post,
-           alpha = alpha.post, beta = beta.post)
-contour.df <- data.frame(xy, z)
-p1 <- ggplot(contour.df, aes(x = x, y = y, z = z)) + #geom_contour(size = 1) +
-  xlim(plotxlim[1], plotxlim[2]) + coord_cartesian(ylim = plotylim) +
-  labs(x = expression(Mean~(mu)), y = expression(Precision~(psi))) +
-  geom_raster(aes(fill = density)) +
-  theme_bw()
-p1
-
-
-# Function for variational inference contour data
-varContour <- function(niter = 10) {
-  # Set up result list
-  res <- NULL
-
-  # Initialise
-  q.psi.c <- 60; q.psi.d <- 40
-  q.mu.a <- 0.4; q.mu.b <- 400
-  q.mu.var <- q.psi.d / (q.psi.c * q.mu.b)
-  res[1] <- apply(xy, 1, dvarapprox, mean.mu = q.mu.a,
-                  var.mu = q.mu.var, shape.psi = q.psi.c, rate.psi = q.psi.d)
-}
-
-
-# Variational approximation
-
-
-# Update mu
-q.mu.a <- (lambda0 * mu0 + n * mean(ydat)) / (lambda0 + n)
-q.mu.var <- q.psi.d / (q.psi.c *  (lambda0 + n))
-zq10 <- apply(xy, 1, dvarapprox, mean.mu = q.mu.a,
-              var.mu = q.mu.var, shape.psi = q.psi.c,
-              rate.psi = q.psi.d)
-contour.df <- data.frame(xy, z = zq10)
-
-# Update psi
-q.psi.c <- n / 2
-q.psi.d <-  0.5 * (sum(ydat ^ 2) - 2 * mean(ydat) * q.mu.a + q.mu.var + q.mu.a ^ 2)
-zq11 <- apply(xy, 1, dvarapprox, mean.mu = q.mu.a,
-              var.mu = q.mu.var, shape.psi = q.psi.c,
-              rate.psi = q.psi.d)
-contour.df <- data.frame(xy, z = zq11)
-
-# Update mu
-q.mu.a <- (lambda0 * mu0 + n * mean(ydat)) / (lambda0 + n)
-q.mu.var <- q.psi.d / (q.psi.c *  (lambda0 + n))
-zq21 <- apply(xy, 1, dvarapprox, mean.mu = q.mu.a,
-              var.mu = q.mu.var, shape.psi = q.psi.c,
-              rate.psi = q.psi.d)
-contour.df <- data.frame(xy, z = zq21)
-
-# Update psi
-q.psi.c <- n / 2
-q.psi.d <-  0.5 * (sum(ydat ^ 2) - 2 * mean(ydat) * q.mu.a + q.mu.var + q.mu.a ^ 2)
-zq22 <- apply(xy, 1, dvarapprox, mean.mu = q.mu.a,
-              var.mu = q.mu.var, shape.psi = q.psi.c,
-              rate.psi = q.psi.d)
-contour.df <- data.frame(xy, z = zq22)
-
-# Update mu
-q.mu.a <- (lambda0 * mu0 + n * mean(ydat)) / (lambda0 + n)
-q.mu.var <- q.psi.d / (q.psi.c *  (lambda0 + n))
-zq32 <- apply(xy, 1, dvarapprox, mean.mu = q.mu.a,
-              var.mu = q.mu.var, shape.psi = q.psi.c,
-              rate.psi = q.psi.d)
-contour.df <- data.frame(xy, z = zq32)
-
-# Update psi
-q.psi.c <- n / 2
-q.psi.d <-  0.5 * (sum(ydat ^ 2) - 2 * mean(ydat) * q.mu.a + q.mu.var + q.mu.a ^ 2)
-zq33 <- apply(xy, 1, dvarapprox, mean.mu = q.mu.a,
-              var.mu = q.mu.var, shape.psi = q.psi.c,
-              rate.psi = q.psi.d)
-contour.df <- data.frame(xy, z = zq33)
-
-# Contour plot
-p1 + geom_contour(data = contour.df, aes(x = x, y = y, z = z), col = "red")
-
-test.df <- rbind(
-  data.frame(xy, z = zq00, iteration = "Iteration 0"),
-  data.frame(xy, z = zq10, iteration = "Iteration 1 (updating mean)"),
-  data.frame(xy, z = zq11, iteration = "Iteration 2 (updating precision)")
-)
-
-p <- ggplot(test.df, aes(x = x, y = y, z = z, group = iteration, frame = iteration)) + geom_contour() +
-  xlim(plotxlim[1], plotxlim[2]) + coord_cartesian(ylim = plotylim) + theme_bw()
-gganimate_save(gganimate(p), "var.gif")
-
-
 ## ---- save.plots.for.presentation ----
-ggsave("figure/points.pdf", p1, width = 6.5, height = 6.5 / 2.25)
+ggsave("../figure/points.pdf", p1, width = 6.5, height = 6.5 / 2.25)
 # ggsave("figure/can-prior.pdf", plot.can$p2.prior.line,
 #        width = 6.5, height = 6.5 / 1.5)
 # ggsave("figure/can-posterior.pdf", plot.can$p2.posterior.line,
 #        width = 6.5, height = 6.5 / 1.5)
-ggsave("figure/fbm-prior.pdf", plot.fbm$p2.prior.line,
+ggsave("../figure/fbm-prior.pdf", plot.fbm$p2.prior.line,
        width = 6.5, height = 6.5 / 1.5)
-ggsave("figure/fbm-posterior.pdf", plot.fbm$p2.posterior.line,
+ggsave("../figure/fbm-posterior.pdf", plot.fbm$p2.posterior.line,
        width = 6.5, height = 6.5 / 1.5)
-ggsave("figure/fbm-posterior-truth.pdf", {
+ggsave("../figure/fbm-posterior-truth.pdf", {
   plot.fbm$p2.posterior +
     geom_line(data = dat.truth, aes(x = x.true, y = y.true), size = 1,
               alpha = 0.75, col = "red3") +
     annotate("text", label = "Truth", col = "red3", x = max(x.true),
              y = max(y.true) + 1)
   }, width = 6.5, height = 6.5 / 1.5)
-ggsave("figure/credible-interval.pdf", plot.fbm$p3, width = 6.5, height = 6.5 / 1.5)
-ggsave("figure/ppc.pdf", plot.fbm$p5, width = 6.5, height = 6.5 / 1.5)
-
-ggsave("figure/compare1.pdf", p6(), width = 6.5, height = 6.5 / 1.5)
-ggsave("figure/compare2.pdf", p6(T), width = 6.5, height = 6.5 / 1.5)
-ggsave("figure/compare3.pdf", p6(T, T), width = 6.5, height = 6.5 / 1.5)
-ggsave("figure/compare4.pdf", p6(T, T, T), width = 6.5, height = 6.5 / 1.5)
-ggsave("figure/compare5.pdf", p6(T, T, T, T), width = 6.5, height = 6.5 / 1.5)
-ggsave("figure/compare6.pdf", p7(), width = 6.5, height = 6.5 / 1.5)
-
-
-
-
-
-
-
-
-
+p1 <- p1 +
+  geom_line(data = dat.truth, aes(x = x.true, y = y.true), size = 1,
+            alpha = 0.75, col = "red3") +
+  scale_x_continuous(
+    breaks = NULL, name = NULL
+  ) +
+  scale_y_continuous(
+    breaks = NULL, name = NULL
+  ) + theme_classic()
+ggsave("../figure/plot-line.pdf", p1, width = 4, height = 4 / 2.25)
+ggsave("../figure/credible-interval.pdf", plot.fbm$p3, width = 6.5, height = 6.5 / 1.5)
+ggsave("../figure/ppc.pdf", plot.fbm$p5, width = 6.5, height = 6.5 / 1.5)
