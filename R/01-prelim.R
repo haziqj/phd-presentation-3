@@ -7,6 +7,7 @@ gg_colour_hue <- function(n) {
   hcl(h = hues, l = 65, c = 100)[1:n]
 }
 library(gganimate)
+library(animation)
 library(reshape2)
 library(directlabels)
 library(rstan)

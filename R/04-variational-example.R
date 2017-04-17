@@ -65,9 +65,10 @@ contour.df <- data.frame(xy, z, iteration = "Truth", logLik = NA, alpha = 1)
 varContourDat <- function(niter = 3, alpha = 0.5) {
   res <- NULL; LB <- rep(NA, 1 + niter * 2)
   varLabel <- function(x) {
+    xx <- rep(1:50, each = 2)[x]
     ifelse(!isEven(x),
-           paste0("Iteration ", x, " (mu update)"),
-           paste0("Iteration ", x - 1, " (psi update)"))
+           paste0("Iteration ", xx, " (mu update)"),
+           paste0("Iteration ", xx, " (psi update)"))
   }
 
   # Initialise
@@ -102,7 +103,7 @@ varContourDat <- function(niter = 3, alpha = 0.5) {
   tmp <- lapply(res, function(w) data.frame(xy, z = w))
   df <- data.frame(tmp[[1]], iteration = "Iteration 0", logLik = LB[1],
                    alpha = alpha)
-  for (i in 2:(niter * 2)) {
+  for (i in 2:(niter * 2 + 1)) {
     df <- rbind(df, data.frame(tmp[[i]], iteration = varLabel(i - 1),
                                logLik = LB[i], alpha = alpha))
   }
@@ -111,7 +112,7 @@ varContourDat <- function(niter = 3, alpha = 0.5) {
 contour.df <- rbind(contour.df, varContourDat())
 
 # Contour plot
-varContourPlot <- function(iter = NULL) {
+varContourPlot <- function(iter = NULL, animate = FALSE) {
   var.lb <- unique(contour.df[, 5])[-1]
   min.var.lb <- min(var.lb)
   var.iter.numbers <- as.numeric(unique(contour.df[, 4]))
@@ -161,10 +162,24 @@ varContourPlot <- function(iter = NULL) {
     guides(col = guide_colorbar(barwidth = 1, barheight = 16))
 }
 
-# Save plots
+## ---- variational.example.save ----
 ggsave("../figure/vbupdate.pdf", varContourPlot(), width = 6.5, height = 6.5 / 1.5)
 plot.names <- c(1:6, 0)
 for (i in 1:length(plot.names)) {
   ggsave(paste0("../figure/vbupdate_", i,".pdf"), varContourPlot(plot.names[i]),
          width = 6.5, height = 6.5 / 1.5)
 }
+
+## ---- variational.example.gganimate ----
+makeplot <- function() {
+  plot.names <- 0:6
+  for (i in 1:length(plot.names)) {
+    p <- varContourPlot(plot.names[i])
+    print(p)
+  }
+  ani.pause()
+}
+saveGIF(makeplot(), interval = 1, ani.width = 550, ani.height = 550 / 1.5)
+# Move animate.gif to ../figure and also ./R/figure
+file.copy("animation.gif", file.path("../figure", "animation.gif"))
+file.rename("animation.gif", "figure/animation.gif")

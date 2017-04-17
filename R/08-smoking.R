@@ -137,5 +137,46 @@ ggplot(plot.dat, aes(x = variable, y = value, col = Study, group = Study)) +
   theme_bw() +
   theme(legend.position = "none", axis.text = element_text(size = 12))
 
+## ---- plot.smoke.all ----
+odds.dat.orig <- tmp$odds
+odds.dat <- odds.dat.orig[, -(5:8)]
+plot.dat <- reshape2::melt(odds.dat, id.vars = c("Study", "Odds.ratio"),
+                           measure.vars = c("Odds.C", "Odds.T"))
+plot.dat <- cbind(plot.dat,
+                  lo = c(odds.dat.orig[, 6], odds.dat.orig[, 5]),
+                  up = c(odds.dat.orig[, 8], odds.dat.orig[, 7]))
+lab.msg <- paste("avg. odds\nratio = ", decPlac(tmp$avg.odds, 3))
+ggplot(plot.dat, aes(x = variable, y = value, col = Study, group = Study)) +
+  geom_point() +
+  geom_line() +
+  directlabels::geom_dl(aes(label = decPlac(Odds.ratio, 3)),
+                        method = list("last.polygons")) +
+  directlabels::geom_dl(aes(label = Study),
+                        method = list("first.bumpup",
+                                      directlabels::dl.trans(x = x - 0.2))) +
+  annotate("text", x = 2.2, y = 0.03, label = lab.msg, size = 3.9,
+           col = "grey30", lineheight = 0.9) +
+  scale_x_discrete(labels = c("Control", "Nicotine gum treatment")) +
+  labs(x = NULL, y = "Model predicted odds") +
+  theme_bw() +
+  theme(legend.position = "none")
 
-
+## ---- tab.smoke.all ----
+odds.dat.orig <- tmp$odds
+comb.odds <- function(x, k = 2) {
+  xx <- c(x[1], decPlac(x[-1], k))
+  odds.T <- paste0(xx[2], " (", xx[5], ", ", xx[7], ")")
+  odds.C <- paste0(xx[3], " (", xx[6], ", ", xx[8], ")")
+  odds.R.loup <- decPlac(sort(c(max(x[5], x[7]) / min(x[6], x[8]),
+                                min(x[5], x[7]) / max(x[6], x[8]))), k)
+  odds.R <- paste0(xx[4], " (", odds.R.loup[1], ", ", odds.R.loup[2], ")")
+  c(odds.C, odds.T, odds.R)
+}
+tmp1 <- split(odds.dat.orig, seq(nrow(odds.dat.orig)))
+tmp1 <- lapply(tmp1, comb.odds)
+comb.odds.df <- data.frame(cbind(
+  as.character(odds.dat.orig$Study),
+  matrix(unlist(tmp1), ncol = 3, byrow = TRUE)
+))
+colnames(comb.odds.df) <- c("Study", "Control", "Treated", "Odds ratio")
+knitr::kable(comb.odds.df, align = "r")

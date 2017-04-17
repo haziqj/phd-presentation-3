@@ -118,3 +118,29 @@ load("data/cardiac_se_results")
 load("data/cardiac_rank_results")
 load("data/cardiac_results")
 knitr::kable(tab.all, align = "r")
+
+## ---- plot.readme.cardiac ----
+plotRes2 <- function() {
+  plot.df <- cbind(tab.mean, id = rownames(tab.mean))
+  suppressMessages(
+    plot.df <- reshape2::melt(plot.df)
+  )
+  id2 <- plot.df$id
+  tmp <- levels(id2)
+  tmp[grepl("I-probit", tmp)] <- "I-probit"
+  levels(id2) <- tmp
+  suppressMessages(
+    plot.se <- reshape2::melt(tab.se)
+  )
+  plot.df <- cbind(plot.df, se = plot.se[, 2], id2 = id2)
+  plot.df$id <- factor(plot.df$id,
+                       levels = names(sort(tab.ranks, decreasing = TRUE)))
+  ggplot(plot.df, aes(x = value, y = id, col = id2, label = decPlac(value))) +
+    geom_point() +
+    geom_errorbarh(aes(xmin = value - 1.96 * se, xmax = value + 1.96 * se,
+                       height = 0)) +
+    facet_grid(. ~ variable) +
+    labs(x = "Misclassification rate", y = NULL) + guides(col = FALSE) +
+    theme_bw()
+}
+plotRes2()
