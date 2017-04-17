@@ -128,7 +128,7 @@ varContourPlot <- function(iter = NULL, animate = FALSE) {
     df <- subset(contour.df, as.numeric(iteration) == c(1, iter + 2))
     iter.plot.to.show <- var.iter.numbers[iter + 1] - 1
     if (iter.plot.to.show == 0) {
-      plot.title <- "Iteration 0 (initialisation)"
+      plot.title <- bquote(Iteration~0~(initialisation))
     } else if (!isEven(iter.plot.to.show)) {
       iter.plot.to.show <- (iter.plot.to.show + 1) / 2
       plot.title <- bquote(Iteration~.(iter.plot.to.show)~(mu~update))
