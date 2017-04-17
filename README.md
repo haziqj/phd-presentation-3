@@ -44,13 +44,13 @@ Supplementary material
 
 #### Model comparison
 
-| Model                                                |  Lower bound|  Brier score|  No. of RKHS param.|
-|:-----------------------------------------------------|------------:|------------:|-------------------:|
-| *f*<sub>1</sub>                                      |     -3210.79|       0.0311|                   1|
-| *f*<sub>1</sub> + *f*<sub>2</sub>                    |     -3097.24|       0.0294|                   2|
-| *f*<sub>1</sub> + *f*<sub>2</sub> + *f*<sub>12</sub> |     -3091.21|       0.0294|                   2|
+|     | Model                                                |  Lower bound|  Brier score|  No. of RKHS param.|
+|-----|:-----------------------------------------------------|------------:|------------:|-------------------:|
+| 1   | *f*<sub>1</sub>                                      |     -3210.79|       0.0311|                   1|
+| 2   | *f*<sub>1</sub> + *f*<sub>2</sub>                    |     -3097.24|       0.0294|                   2|
+| 3   | *f*<sub>1</sub> + *f*<sub>2</sub> + *f*<sub>12</sub> |     -3091.21|       0.0294|                   2|
 
-*Notes: The [Brier score](https://en.wikipedia.org/wiki/Brier_score) measures the accuracy of probabilistic predictions*
+*Notes: The [Brier score](https://en.wikipedia.org/wiki/Brier_score) measures the accuracy of probabilistic predictions.*
 
 #### Model predicted odds (with naive interval)
 

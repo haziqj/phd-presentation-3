@@ -180,4 +180,4 @@ comb.odds.df <- data.frame(cbind(
 ))
 colnames(comb.odds.df) <- c("Study", "Control", "Treated", "Odds ratio")
 levels(comb.odds.df[, 4])[27] <- "3.04 (1.83, 11.6)"  # manual fix signif.
-knitr::kable(comb.odds.df, align = "r")
+knitr::kable(comb.odds.df, align = "r", row.names = TRUE)
