@@ -60,8 +60,10 @@ An extension of the I-prior methodology to binary response data is explored. Sta
 
 ```{r mod.compare.smoke.md, echo = FALSE}
 colnames(tab.compare)[4] <- "No. of RKHS param."
-knitr::kable(tab.compare, align = "r")
+knitr::kable(tab.compare, align = c("l", "r", "r", "r"))
 ```
+
+*Notes: The [Brier score](https://en.wikipedia.org/wiki/Brier_score) measures the accuracy of probabilistic predictions.*
 
 #### Model predicted odds (with naive interval)
 
@@ -72,8 +74,6 @@ knitr::kable(tab.compare, align = "r")
 
 ```{r plot.smoke.all, echo = FALSE, fig.height = 10, fig.width = 6}
 ```
-
-*Notes: The [Brier score](https://en.wikipedia.org/wiki/Brier_score) measures the accuracy of probabilistic predictions*
 
 Copyright (C) 2017 [Haziq Jamil](http://haziqj.ml). All rights reserved.
 

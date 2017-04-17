@@ -44,16 +44,15 @@ Supplementary material
 
 #### Model comparison
 
-|                                                 Model|  Lower bound|  Brier score|  No. of RKHS param.|
-|-----------------------------------------------------:|------------:|------------:|-------------------:|
-|                                       *f*<sub>1</sub>|     -3210.79|       0.0311|                   1|
-|                     *f*<sub>1</sub> + *f*<sub>2</sub>|     -3097.24|       0.0294|                   2|
-|  *f*<sub>1</sub> + *f*<sub>2</sub> + *f*<sub>12</sub>|     -3091.21|       0.0294|                   2|
+| Model                                                |  Lower bound|  Brier score|  No. of RKHS param.|
+|:-----------------------------------------------------|------------:|------------:|-------------------:|
+| *f*<sub>1</sub>                                      |     -3210.79|       0.0311|                   1|
+| *f*<sub>1</sub> + *f*<sub>2</sub>                    |     -3097.24|       0.0294|                   2|
+| *f*<sub>1</sub> + *f*<sub>2</sub> + *f*<sub>12</sub> |     -3091.21|       0.0294|                   2|
+
+*Notes: The [Brier score](https://en.wikipedia.org/wiki/Brier_score) measures the accuracy of probabilistic predictions*
 
 #### Model predicted odds (with naive interval)
-
-    ## Warning in `[<-.factor`(`*tmp*`, iseq, value = structure(27L, .Label =
-    ## c("1.03 (0.21, 2.09)", : invalid factor level, NA generated
 
 |            Study|            Control|            Treated|         Odds ratio|
 |----------------:|------------------:|------------------:|------------------:|
@@ -68,7 +67,7 @@ Supplementary material
 |        Hall 1987|  0.35 (0.18, 0.45)|  0.72 (0.48, 1.07)|  2.04 (1.06, 5.95)|
 |        Hall 1996|  0.39 (0.25, 0.55)|  0.42 (0.23, 0.55)|  1.08 (0.41, 2.25)|
 |  Hjalmarson 1984|  0.26 (0.13, 0.33)|  0.46 (0.28, 0.64)|  1.78 (0.84, 4.87)|
-|       Huber 1988|  0.36 (0.16, 0.44)|  1.08 (0.80, 1.86)|                 NA|
+|       Huber 1988|  0.36 (0.16, 0.44)|  1.08 (0.80, 1.86)|  3.04 (1.83, 11.6)|
 |      Jarvis 1982|  0.27 (0.13, 0.34)|  0.61 (0.40, 0.89)|  2.22 (1.17, 6.98)|
 |      Jensen 1991|  0.55 (0.35, 0.79)|  0.78 (0.50, 1.13)|  1.40 (0.63, 3.27)|
 |      Killen 1984|  0.47 (0.29, 0.65)|  0.63 (0.39, 0.89)|  1.35 (0.59, 3.10)|
@@ -88,7 +87,5 @@ Supplementary material
 #### Plot of model predicted odds
 
 ![](README_files/figure-markdown_github/plot.smoke.all-1.png)
-
-*Notes: The [Brier score](https://en.wikipedia.org/wiki/Brier_score) measures the accuracy of probabilistic predictions*
 
 Copyright (C) 2017 [Haziq Jamil](http://haziqj.ml). All rights reserved.
