@@ -49,7 +49,12 @@
 \newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
 
 \usepackage{alltt}
-\usepackage{../haziq_beamer}
+\usepackage{standalone}
+\standalonetrue
+\ifstandalone
+  \usepackage{../haziq_beamer}
+  \addbibresource{../bib/phd-presentation-3.bib}
+\fi
 
 
 
@@ -73,6 +78,11 @@
 
 
 \begin{frame}[fragile]{Fisher's Iris data set - Model fitting}
+\blfootnote{\fullcite{Jamil2017iprobit}}
+\vspace{-13pt}
+\begin{itemize}
+\item Varitional inference for I-prior probit models implemented in \proglang{R} package \pkg{iprobit} (still lots of work to do!).
+\end{itemize}
 \begin{knitrout}\small
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
@@ -82,11 +92,20 @@
 \end{alltt}
 \end{kframe}
 \end{knitrout}
+\vspace{-25pt}
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\vspace{0.8em}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+\vspace{-25pt}
 \begin{knitrout}\small
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{verbatim}
 ## 
-## |==================                              |  61%
+## |=================================                     |  61%
 ##  Converged after 6141 iterations.
 ##  Training error rate: 0 %
 ##     user  system elapsed
@@ -94,6 +113,7 @@
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
+
 \end{frame}
 
 \begin{frame}[fragile]{Fisher's Iris data set - Model summary}
@@ -122,9 +142,7 @@
 \end{frame}
 
 \begin{frame}[fragile]{Fisher's Iris data set - Lower bound}
-\begin{itemize}
-\item Monitoring the lower bound (first 10 iterations)
-\end{itemize}
+\vspace{-7pt}
 \begin{knitrout}\small
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
@@ -135,7 +153,7 @@
 \begin{knitrout}\small
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
 
-{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-3-1} 
+{\centering \includegraphics[width=\maxwidth]{figure/iris-lb-1} 
 
 }
 
@@ -153,7 +171,7 @@
 \end{alltt}
 \end{kframe}
 
-{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-4-1} 
+{\centering \includegraphics[width=\maxwidth]{figure/iris-decbound-1} 
 
 }
 
@@ -163,11 +181,11 @@
 \end{frame}
 
 \begin{frame}[fragile]{Cardiac arrhythmia data set}
-\blfootnote{https://archive.ics.uci.edu/ml/datasets/Arrhythmia}
+\blfootnote{\fullcite{ArrhythmiaData}}
 \vspace{-20pt}
 \begin{itemize}
 % \item Original data set contains 16 classes of arrhythmia .
-\item Distinguish between the presence and absence of cardiac arrhythmia based on ECG data ($n = 451, p = 194$).
+\item Detect the presence of cardiac arrhythmia based on various ECG data and other attributes such as age and weight ($n = 451, p = 194$).
 \end{itemize}
 
 \begin{knitrout}\small
@@ -184,7 +202,7 @@
 
 
 \begin{frame}[fragile]{Cardiac arrhythmia data set - Model fit}
-\blfootnote{Cannings cite} %\fullcite{Cannings2017}
+\blfootnote{\fullcite{Cannings2017}}
 \vspace{-20pt}
 \begin{itemize}
   \item Fit an I-prior probit model using Canonical and FBM kernel. The full data set takes about 35 seconds.
@@ -198,18 +216,15 @@
 \end{kframe}
 \end{knitrout}
 \vspace{-10pt}
-% <<>>=
-% mod$time
-% @
 \begin{itemize}
-  \item Compare against popular classifiers: 1) $k$-nearest n3eighbours; 2) support vector machine; 3) Gaussian process classification; 4) random forests; 5) nearest shrunken centroids (Tibshirani et. al., 2003); and 6) L-1 penalised logistic regression. %\cite{tibshirani2003class}
+  \item Compare against popular classifiers: 1) $k$-nearest neighbours; 2) support vector machine; 3) Gaussian process classification; 4) random forests; 5) nearest shrunken centroids \parencite{tibshirani2003class}; and 6) L-1 penalised logistic regression.
   \vspace{0.5em}
   \item Experiment set-up:
   \begin{itemize}
     \item Form training set by sub-sampling $n_{\text{sub}} \in \{50, 100, 200 \}$ data points.
     \item Use remaining data as test set.
     \item Fit model on training set and obtain test error rates.
-    \item Repeat 100 times to obtain standard errors.
+    \item Repeat 100 times.
   \end{itemize}
 \end{itemize}
 
@@ -220,7 +235,7 @@
 \begin{knitrout}\small
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
 
-{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-6-1} 
+{\centering \includegraphics[width=\maxwidth]{figure/cardiac-res-plot-1} 
 
 }
 
@@ -229,8 +244,55 @@
 \end{knitrout}
 \end{frame}
 
+
 \begin{frame}[fragile]{Meta-analysis of smoking cessation}
-  \blfootnote{cite Rabe Hasketh Skrondall}
+  \blfootnote{\fullcite[§9.5]{Skrondal2004}}
+  \vspace{-30pt}
+
+  \definecolor{col1}{HTML}{F8766D}
+  \definecolor{col2}{HTML}{D89000}
+  \definecolor{col3}{HTML}{A3A500}
+  \definecolor{col4}{HTML}{39B600}
+  \definecolor{col5}{HTML}{00BF7D}
+  \definecolor{col6}{HTML}{00BFC4}
+  \definecolor{col7}{HTML}{00B0F6}
+  \definecolor{col8}{HTML}{9590FF}
+  \definecolor{col9}{HTML}{E76BF3}
+  \definecolor{col10}{HTML}{FF62BC}
+  \newcommand{\ebx}{{\color{white} 1\hspace{-20pt}}}
+  \begin{center}
+  \begin{forest}
+  %where n children=0{}{},
+  for tree={
+    edge path={
+      \noexpand\path[\forestoption{edge}]
+        (!u.parent anchor) -- +(0,-13pt) -|
+        (.child anchor)\forestoption{edge label};
+    },
+    l sep=5pt, s sep=0pt
+  }
+  [
+    [{\color{col2}\footnotesize Fagerstrom 1982}
+      [\ebx] [\ebx] [\ebx] [\ebx] [\ebx] [\ebx]
+    ]
+    [{\color{col10}\footnotesize Villa 1999}
+      [\ebx] [\ebx] [\ebx] [\ebx] [\ebx]
+    ]
+    [{\color{col7}\footnotesize Nakamura 1990}
+      [\ebx] [\ebx] [\ebx]
+    ]
+    [{\color{col4}\footnotesize Garvey 2000}
+      [\ebx] [\ebx] [\ebx] [\ebx]
+    ]
+    [$\cdots$]
+    [{\color{col8}\footnotesize Niaura 1999}
+      [\ebx] [\ebx] [\ebx] [\ebx] [\ebx]
+    ]
+  ]
+  \end{forest}
+  \end{center}
+
+  \vspace{-25pt}
   \begin{itemize}
     \item Data from 27 separate smoking cessation studies, where participants subjected to nicotine gum treatment or placed in control group.
     \item Some summary statistics:
@@ -240,7 +302,7 @@
 
 \begin{tabular}{l|r|r|r|r|r}
 \hline
-  & Min & Average & Max & Prop. quit & Odds quit\\
+  & Min. & Avg. & Max. & Prop. quit & Odds quit\\
 \hline
 Control & 20 & 101 & 617 & 0.207 & 0.261\\
 \hline
@@ -250,12 +312,21 @@ Treated & 21 & 117 & 600 & 0.320 & 0.470\\
 
 
 \end{center}
+
+  \vspace{-5pt}
+  \begin{itemize}
+    \item Raw odds ratio: 1.801.
+    \item Random-effects analysis using a multilevel logistic model estimates this  odds ratio as 1.768.
+  \end{itemize}
+  \vspace{4pt}
+
 \end{frame}
 
+
 \begin{frame}[fragile]{Meta-analysis of smoking cessation - model}
-  \begin{itemize}
+  \begin{itemize}\setlength\itemsep{0.3em}
     \item Let $i = 1,\dots,n_j$ index the patients in study group $j \in 1,\dots,27$.
-    \item Denote $y_{ij}$ as the binary response variable indicating \texttt{Quit} (1) or \texttt{Remain} (0), and $x_{ij}$ indicating which treatment group the patient is in.
+    \item Denote $y_{ij}$ as the binary response variable indicating \texttt{Quit} (1) or \texttt{Remain} (0), and $x_{ij}$ as $\text{patient}_{ij}$'s treatment group indicator.
     \item Model binary data using I-probit model
     \begin{align*}
       \Phi^{-1}(p_{ij}) &= f(x_{ij}, j) \\
@@ -263,9 +334,26 @@ Treated & 21 & 117 & 600 & 0.320 & 0.470\\
     \end{align*}
     with $f_1, f_2 \in$ Pearson RKHS, and $f_{12} \in$ ANOVA RKHS.
   \end{itemize}
+
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\begin{center}
+
+\begin{tabular}{l|l|r|r|R{2.2cm}}
+\hline
+  & Model & Lower bound & Brier score & No. of RKHS\newline param.\\
+\hline
+1 & $f_1$ & -3210.79 & 0.0311 & 1\\
+\hline
+2 & $f_1 + f_2$ & -3097.24 & 0.0294 & 2\\
+\hline
+3 & $f_1 + f_2 + f_{12}$ & -3091.21 & 0.0294 & 2\\
+\hline
+\end{tabular}
+
+
+\end{center}
+
 \end{frame}
-
-
 
 \begin{frame}[fragile]{Meta-analysis of smoking cessation - results}
 \vspace{-3pt}
@@ -280,4 +368,7 @@ Treated & 21 & 117 & 600 & 0.320 & 0.470\\
 
 \end{knitrout}
 \end{frame}
+
 \end{document}
+
+

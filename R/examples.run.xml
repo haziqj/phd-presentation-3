@@ -78,5 +78,8 @@
     <requires type="dynamic">
       <file>examples.bcf</file>
     </requires>
+    <requires type="editable">
+      <file>../bib/phd-presentation-3.bib</file>
+    </requires>
   </external>
 </requests>

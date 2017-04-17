@@ -25,7 +25,7 @@ system.time(
   (mod <- iprobit(y, X))
 )
 cat(
-  "\n|==================                              |  61%\n",
+  "\n|=================================                     |  61%\n",
   "Converged after 6141 iterations.\n",
   "Training error rate: 0 %\n",
   "   user  system elapsed\n",

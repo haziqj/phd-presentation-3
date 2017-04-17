@@ -1,5 +1,10 @@
 \documentclass{beamer}
-\usepackage{../haziq_beamer}
+\usepackage{standalone}
+\standalonetrue
+\ifstandalone
+  \usepackage{../haziq_beamer}
+  \addbibresource{../bib/phd-presentation-3.bib}
+\fi
 
 <<setup, include = FALSE, cache = FALSE>>=
 knitr::opts_chunk$set(echo = TRUE, fig.align = "center", size = "small",
@@ -11,6 +16,9 @@ knitr::read_chunk("01-prelim.R")
 knitr::read_chunk("05-iris.R")
 knitr::read_chunk("07-cardiac.R")
 knitr::read_chunk("08-smoking.R")
+
+# BibLaTeX with Biber backend
+system(paste("biber", sub("\\.Rnw$", "", current_input())))
 @
 
 <<prelim, include = FALSE>>=
@@ -26,10 +34,25 @@ knitr::read_chunk("08-smoking.R")
 <<mod.iris, include = FALSE, cache = TRUE>>=
 @
 \begin{frame}[fragile]{Fisher's Iris data set - Model fitting}
+\blfootnote{\fullcite{Jamil2017iprobit}}
+\vspace{-13pt}
+\begin{itemize}
+\item Varitional inference for I-prior probit models implemented in \proglang{R} package \pkg{iprobit} (still lots of work to do!).
+\end{itemize}
 <<fake.mod.iris, echo = 1:3, eval = FALSE>>=
 @
+\vspace{-25pt}
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\vspace{0.8em}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+\vspace{-25pt}
 <<fake.mod.iris, echo = FALSE, eval = 2>>=
 @
+
 \end{frame}
 
 \begin{frame}[fragile]{Fisher's Iris data set - Model summary}
@@ -39,62 +62,57 @@ summary(mod)
 \end{frame}
 
 \begin{frame}[fragile]{Fisher's Iris data set - Lower bound}
-\begin{itemize}
-\item Monitoring the lower bound (first 10 iterations)
-\end{itemize}
-<<, eval = FALSE>>=
+\vspace{-7pt}
+<<iris-lb-command, eval = FALSE>>=
 iplot_lb(mod, niter.plot = 10)
 @
-<<, echo = FALSE, fig.width = 7, fig.height = 3.5>>=
+<<iris-lb, echo = FALSE, fig.width = 7, fig.height = 3.9>>=
 iplot_lb(mod, niter.plot = 10, lab.pos = "down")
 @
 \end{frame}
 
 \begin{frame}[fragile]{Fisher's Iris data set - Decision boundary}
 \vspace{-5pt}
-<<, fig.width = 7, fig.height = 4.0>>=
+<<iris-decbound, fig.width = 7, fig.height = 4>>=
 iplot_decbound(mod)
 @
 \end{frame}
 
 \begin{frame}[fragile]{Cardiac arrhythmia data set}
-\blfootnote{https://archive.ics.uci.edu/ml/datasets/Arrhythmia}
+\blfootnote{\fullcite{ArrhythmiaData}}
 \vspace{-20pt}
 \begin{itemize}
 % \item Original data set contains 16 classes of arrhythmia .
-\item Distinguish between the presence and absence of cardiac arrhythmia based on ECG data ($n = 451, p = 194$).
+\item Detect the presence of cardiac arrhythmia based on various ECG data and other attributes such as age and weight ($n = 451, p = 194$).
 \end{itemize}
 <<data.cardiac, include = FALSE>>=
 @
-<<plot.cardiac, echo = FALSE, fig.width = 7, fig.height = 3.5>>=
+<<plot.cardiac, echo = FALSE, fig.width = 7, fig.height = 3.3>>=
 @
 \end{frame}
 
 <<mod.full.cardiac, include = FALSE, cache = TRUE>>=
 @
 \begin{frame}[fragile]{Cardiac arrhythmia data set - Model fit}
-\blfootnote{Cannings cite} %\fullcite{Cannings2017}
+\blfootnote{\fullcite{Cannings2017}}
 \vspace{-20pt}
 \begin{itemize}
   \item Fit an I-prior probit model using Canonical and FBM kernel. The full data set takes about 35 seconds.
 \end{itemize}
 \vspace{-5pt}
-<<, eval = FALSE>>=
+<<cardiac-command, eval = FALSE>>=
 mod <- iprior(y, X, kernel = "FBM")
 @
 \vspace{-10pt}
-% <<>>=
-% mod$time
-% @
 \begin{itemize}
-  \item Compare against popular classifiers: 1) $k$-nearest n3eighbours; 2) support vector machine; 3) Gaussian process classification; 4) random forests; 5) nearest shrunken centroids (Tibshirani et. al., 2003); and 6) L-1 penalised logistic regression. %\cite{tibshirani2003class}
+  \item Compare against popular classifiers: 1) $k$-nearest neighbours; 2) support vector machine; 3) Gaussian process classification; 4) random forests; 5) nearest shrunken centroids \parencite{tibshirani2003class}; and 6) L-1 penalised logistic regression.
   \vspace{0.5em}
   \item Experiment set-up:
   \begin{itemize}
     \item Form training set by sub-sampling $n_{\text{sub}} \in \{50, 100, 200 \}$ data points.
     \item Use remaining data as test set.
     \item Fit model on training set and obtain test error rates.
-    \item Repeat 100 times to obtain standard errors.
+    \item Repeat 100 times.
   \end{itemize}
 \end{itemize}
 
@@ -103,29 +121,86 @@ mod <- iprior(y, X, kernel = "FBM")
 <<sim.res.cardiac, include = FALSE>>=
 @
 \begin{frame}[fragile]{Cardiac arrhythmia data set - Results}
-<<, echo = FALSE, fig.width = 5.5, fig.height = 3.55>>=
+<<cardiac-res-plot, echo = FALSE, fig.width = 5.5, fig.height = 3.55>>=
 plotRes()
 @
 \end{frame}
 
+<<data.smoke, include = FALSE>>=
+@
 \begin{frame}[fragile]{Meta-analysis of smoking cessation}
-  \blfootnote{cite Rabe Hasketh Skrondall}
+  \blfootnote{\fullcite[§9.5]{Skrondal2004}}
+  \vspace{-30pt}
+
+  \definecolor{col1}{HTML}{F8766D}
+  \definecolor{col2}{HTML}{D89000}
+  \definecolor{col3}{HTML}{A3A500}
+  \definecolor{col4}{HTML}{39B600}
+  \definecolor{col5}{HTML}{00BF7D}
+  \definecolor{col6}{HTML}{00BFC4}
+  \definecolor{col7}{HTML}{00B0F6}
+  \definecolor{col8}{HTML}{9590FF}
+  \definecolor{col9}{HTML}{E76BF3}
+  \definecolor{col10}{HTML}{FF62BC}
+  \newcommand{\ebx}{{\color{white} 1\hspace{-20pt}}}
+  \begin{center}
+  \begin{forest}
+  %where n children=0{}{},
+  for tree={
+    edge path={
+      \noexpand\path[\forestoption{edge}]
+        (!u.parent anchor) -- +(0,-13pt) -|
+        (.child anchor)\forestoption{edge label};
+    },
+    l sep=5pt, s sep=0pt
+  }
+  [
+    [{\color{col2}\footnotesize Fagerstrom 1982}
+      [\ebx] [\ebx] [\ebx] [\ebx] [\ebx] [\ebx]
+    ]
+    [{\color{col10}\footnotesize Villa 1999}
+      [\ebx] [\ebx] [\ebx] [\ebx] [\ebx]
+    ]
+    [{\color{col7}\footnotesize Nakamura 1990}
+      [\ebx] [\ebx] [\ebx]
+    ]
+    [{\color{col4}\footnotesize Garvey 2000}
+      [\ebx] [\ebx] [\ebx] [\ebx]
+    ]
+    [$\cdots$]
+    [{\color{col8}\footnotesize Niaura 1999}
+      [\ebx] [\ebx] [\ebx] [\ebx] [\ebx]
+    ]
+  ]
+  \end{forest}
+  \end{center}
+
+  \vspace{-25pt}
   \begin{itemize}
     \item Data from 27 separate smoking cessation studies, where participants subjected to nicotine gum treatment or placed in control group.
     \item Some summary statistics:
   \end{itemize}
-<<data.smoke, include = FALSE>>=
-@
+
 \begin{center}
 <<sumtab.smoke, echo = FALSE, results = "asis">>=
 @
 \end{center}
+
+  \vspace{-5pt}
+  \begin{itemize}
+    \item Raw odds ratio: \Sexpr{decPlac(tab["Treated", "Odds quit"] / tab["Control", "Odds quit"], 3)}.
+    \item Random-effects analysis using a multilevel logistic model estimates this  odds ratio as 1.768.
+  \end{itemize}
+  \vspace{4pt}
+
 \end{frame}
 
+<<fit.smoke, include = FALSE, cache = TRUE>>=
+@
 \begin{frame}[fragile]{Meta-analysis of smoking cessation - model}
-  \begin{itemize}
+  \begin{itemize}\setlength\itemsep{0.3em}
     \item Let $i = 1,\dots,n_j$ index the patients in study group $j \in 1,\dots,27$.
-    \item Denote $y_{ij}$ as the binary response variable indicating \texttt{Quit} (1) or \texttt{Remain} (0), and $x_{ij}$ indicating which treatment group the patient is in.
+    \item Denote $y_{ij}$ as the binary response variable indicating \texttt{Quit} (1) or \texttt{Remain} (0), and $x_{ij}$ as $\text{patient}_{ij}$'s treatment group indicator.
     \item Model binary data using I-probit model
     \begin{align*}
       \Phi^{-1}(p_{ij}) &= f(x_{ij}, j) \\
@@ -133,14 +208,24 @@ plotRes()
     \end{align*}
     with $f_1, f_2 \in$ Pearson RKHS, and $f_{12} \in$ ANOVA RKHS.
   \end{itemize}
+
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\begin{center}
+<<mod.compare.smoke, echo = FALSE, results = "asis">>=
+@
+\end{center}
+
 \end{frame}
 
-
-<<fit.smoke, include = FALSE, cache = TRUE>>=
-@
 \begin{frame}[fragile]{Meta-analysis of smoking cessation - results}
 \vspace{-3pt}
 <<plot.smoke, echo = FALSE, fig.width = 7, fig.height = 4.5>>=
 @
 \end{frame}
+
 \end{document}
+
+<<move, include = FALSE>>=
+files <- list.files("figure/")
+file.copy(file.path("figure", files), file.path("../figure", files))
+@

@@ -1,9 +1,10 @@
 \documentclass[]{beamer}
 %\documentclass[xcolor={dvipsnames}, handout]{beamer} %for printing
+\usepackage{standalone}
 \usepackage{haziq_beamer}
 \usepackage{knitr}
 \graphicspath{{figure/}{R/figure/}}
-\bibliography{bib/phd-presentation-3}
+\addbibresource{bib/phd-presentation-3.bib}
 \begin{document}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -11,19 +12,23 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \title[I-prior probit]{Binary probit regression with I-priors}
-\author[Haziq Jamil]{\large{Haziq Jamil}\\ \footnotesize{Supervisors: Dr. Wicher Bergsma \& Prof. Irini Moustaki}}
-\institute[http://haziqj.ml]{Social Statistics (Year 3)\\ London School of Economics \& Political Science}
-\date[8-9 May 2017]{8-9 May 2017\\
-\hspace{1cm}\\
-PhD Presentation Event\\
-\hspace{1cm}\\
-\href{http://phd3.haziqj.ml}{\color{fu-red} \textbf{http://phd3.haziqj.ml}}
+\author[Haziq Jamil]{
+  \large{Haziq Jamil}\\ 
+  \footnotesize{Supervisors: Dr. Wicher Bergsma \& Prof. Irini Moustaki}
+}
+\institute[http://haziqj.ml]{
+  Social Statistics (Year 3)\\ 
+  London School of Economics and Political Science
+}
+\date[8-9 May 2017]{
+  8-9 May 2017\\
+  \hspace{1cm}\\
+  PhD Presentation Event\\
+  \hspace{1cm}\\
+  \href{http://phd3.haziqj.ml}{\color{fu-red!60} \textbf{http://phd3.haziqj.ml}}
 }
 
-\begin{frame}[plain]
-  \addtocounter{framenumber}{-1}
-  \titlepage
-\end{frame}
+\mytitle
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% TOC %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -42,187 +47,28 @@ PhD Presentation Event\\
 \transition
 \input{02-probit-iprior}
 
-%\section[Variational]{Variational inference}
-%\transition
-%\input{03-variational}
-%
-%\section{Implementation}
-%\transition
-%\input{04-examples}
-%\begin{frame}{R/\texttt{iprobit}}
-%  \blfootnote{\fullcite{Jamil2017iprobit}}
-%\end{frame}
-%\subsection{Examples}
-%
-%\section{Summary}
-%\transition
-%\input{05-summary}
+\section[Variational]{Variational inference}
+\transition
+\input{03-variational}
+
+\section{Implementation}
+\transition
+\input{04-examples}
+\subsection{Examples}
+\input{R/examples}
+
+\section{Summary}
+\transition
+\input{05-summary}
 
 \section*{End}
-
-{
-\framenonumber
-\begin{frame}[noframenumbering]{End}
-\begin{center}
-\Huge Thank you!
-\end{center}
-\end{frame}
-}
-
-\appendix
+\thankyou
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% REFERENCES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\appendix
 \refslide
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\appendix
-%\beginbackup
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%{
-%\framenonumber
-%\begin{frame}[noframenumbering]
-%	\tableofcontents[sections=6]
-%\end{frame}
-%}
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%\section{Additional material}
-%\subsection{g-priors}
-%\begin{frame}{g-priors (1)}
-%
-%	\begin{itemize}\setlength\itemsep{1em}
-%		\item g-priors (Zellner, 1986) for linear regression coefficients has covariance matrix proportional to the inverse Fisher information
-%			\[
-%				\boldsymbol\beta \sim \text{N}\big(\mathbf 0, g(\psi\mathbf X^\tpose\mathbf X)^{-1}\big)
-%			\]
-%		\item Popular choice of prior in Bayesian variable selection
-%			\begin{itemize}
-%				\item ``\textit{...use of $\propto (\mathbf X^\tpose\mathbf X)^{-1}$ tends to replicate design correlation}''
-%		
-%					(George and McCulloch, 1993)
-%		
-%				\item ``\textit{The choice of $\propto (\mathbf X^\tpose\mathbf X)^{-1}$ serves to replicate the covariance structure of the likelihood}'' (Chipman et. al., 2001)
-%		
-%				\item Used in applications such as gene selection (Lee et. al., 2003), disease staging (Sha et. al., 2004), crime data (Liang et. al., 2008), etc.
-%			\end{itemize}
-%	\end{itemize}
-%
-%\end{frame}
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%\begin{frame}{g-priors (2)}
-%
-%\begin{itemize}
-%\item It is equivalent to using an independent prior on decorrelated data.
-%\end{itemize}
-%
-%\begin{columns}
-%    \begin{column}{0.33\textwidth}
-%    	\begin{align*}
-%		\left .
-%        \begin{gathered} 
-%        \mathbf y = \boldsymbol\alpha + \mathbf X \boldsymbol\beta + \boldsymbol\epsilon \\
-%        \boldsymbol\epsilon \sim \text{N}(\mathbf 0, \psi^{-1}\mathbf I_n) \\
-%        \boldsymbol\beta \sim \text{N}\big(\mathbf 0, g(\mathbf X^\tpose\mathbf X)^{-1}\big)
-%        \end{gathered}
-%        \color{white} \right \}
-%        \hspace{-40pt}
-%        \end{align*}
-%	\end{column}
-%    \begin{column}{0.05\textwidth}
-%		$$\color{white} \Longleftrightarrow$$
-%	\end{column}	
-%    \begin{column}{0.33\textwidth}
-%		\begin{align*} \color{white}
-%		\hspace{-50pt}
-%		\left \{
-%        \begin{gathered} 
-%        \mathbf y = \boldsymbol\alpha + \tilde{\mathbf X} \tilde{\boldsymbol\beta} + \boldsymbol\epsilon \\
-%        \boldsymbol\epsilon \sim \text{N}(\mathbf 0, \psi^{-1}\mathbf I_n) 
-%        \vspace{0.7em}\\                
-%        \tilde{\mathbf X} = \mathbf X(\mathbf X^\tpose\mathbf X)^{-1/2} \\
-%		\tilde{\boldsymbol\beta} = (\mathbf X^\tpose\mathbf X)^{1/2}\boldsymbol\beta \\
-%        \tilde{\boldsymbol\beta} \sim \text{N}(\mathbf 0, g^2 \mathbf I_p)
-%        \end{gathered}
-%        \right .
-%        \end{align*}    
-%	\end{column}
-%\end{columns}
-%
-%\begin{itemize}
-%\item[ ] {\color{white} The intuition is the opposite of I-priors.
-%
-%\vspace{0.5em}
-%\centering{
-%%\hspace{-25pt}
-%\textit{$\uparrow$ Fisher information $\Rightarrow$ $\downarrow$ variance $\Rightarrow$ prior is concentrated at zero}
-%} }
-%\end{itemize}
-%
-%\end{frame}
-%
-%%\miniframesoff
-%\begin{frame}[noframenumbering]{g-priors (2)}
-%
-%\begin{itemize}
-%\item It is equivalent to using an independent prior on decorrelated data.
-%\end{itemize}
-%
-%\begin{columns}
-%    \begin{column}{0.33\textwidth}
-%    	\begin{align*}
-%		\left .
-%        \begin{gathered} 
-%        \mathbf y = \boldsymbol\alpha + \mathbf X \boldsymbol\beta + \boldsymbol\epsilon \\
-%        \boldsymbol\epsilon \sim \text{N}(\mathbf 0, \psi^{-1}\mathbf I_n) \\
-%        \boldsymbol\beta \sim \text{N}\big(\mathbf 0, g(\mathbf X^\tpose\mathbf X)^{-1}\big)
-%        \end{gathered}
-%        \right \}
-%        \hspace{-40pt}
-%        \end{align*}
-%	\end{column}
-%    \begin{column}{0.05\textwidth}
-%		$$\Longleftrightarrow$$
-%	\end{column}	
-%    \begin{column}{0.33\textwidth}
-%    	\begin{align*}
-%		\hspace{-50pt}
-%		\left \{
-%        \begin{gathered} 
-%        \mathbf y = \boldsymbol\alpha + \tilde{\mathbf X} \tilde{\boldsymbol\beta} + \boldsymbol\epsilon \\
-%        \boldsymbol\epsilon \sim \text{N}(\mathbf 0, \psi^{-1}\mathbf I_n) \\ 
-%        \tilde{\boldsymbol\beta} \sim \text{N}(\mathbf 0, g^2 \mathbf I_p)  
-%        \vspace{0.8em}\\                
-%        \tilde{\mathbf X} = \mathbf X(\mathbf X^\tpose\mathbf X)^{-1/2} \\
-%		\tilde{\boldsymbol\beta} = (\mathbf X^\tpose\mathbf X)^{1/2}\boldsymbol\beta \\
-%        \end{gathered}
-%        \right .
-%        \end{align*}    
-%	\end{column}
-%\end{columns}
-%\pause
-%\begin{itemize}
-%\item The intuition is the opposite of I-priors.
-%
-%\vspace{0.5em}
-%\centering{
-%%\hspace{-25pt}
-%\textit{$\uparrow$ Fisher information $\Rightarrow$ $\downarrow$ variance $\Rightarrow$ prior is concentrated at zero}
-%}
-%\end{itemize}
-%
-%\end{frame}
-%%\miniframeson
-%
-%
-%\backupend
 
 \end{document}

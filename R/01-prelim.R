@@ -17,5 +17,11 @@ stan2coda <- function(fit) {
 }
 library(ggmcmc)
 library(coda)
-isEven <- function(x) x %% 2 == 0
+
 source("06-class-sim.R")
+
+# Function to specify decimal places
+decPlac <- function(x, k = 2) format(round(x, k), nsmall = k)
+
+# Function to determine even numbers
+isEven <- function(x) x %% 2 == 0

@@ -1,13 +1,17 @@
+source("01-prelim.R")
+
 ## ---- data.cardiac ----
 load("data/Arrh194.RData")
 experiment.name <- "Cardiac data"
-X <- ArrhDataNew$x
+X.orig <- ArrhDataNew$x
 y <- ArrhDataNew$y
 y <- y - 1  # convert to 0 and 1
 y <- as.factor(y)
 levels(y) <- c("Normal", "Arrhythmia")
 N <- length(y)
 n <- c(50, 100, 200)  # subsamples
+X <- scale(X.orig)  # standardise data
+X[, 36] <- rep(0, N); X[, 181] <- rep(0, N)  # all zeroes
 summary(y)
 
 ## ---- plot.cardiac ----
@@ -22,9 +26,11 @@ colnames(plot.df) <- c("x", "Arrhythmia", "Normal")
 plot.df <- reshape2::melt(plot.df, id.vars = "x")
 ggplot(plot.df, aes(x = x, y = value, col = variable)) +
   geom_line(alpha = 0.8) +
-  directlabels::geom_dl(aes(label = variable), method = list("last.bumpup", cex = 0.8)) +
-  scale_x_continuous(limits = c(0, 210)) +
-  labs(y = "ECG values", x = NULL) +
+  directlabels::geom_dl(aes(label = variable),
+                        method = list("last.bumpup", cex = 0.8,
+                                      directlabels::dl.trans(x = x + 0.1))) +
+  scale_x_continuous(limits = c(0, 210), breaks = NULL) +
+  labs(y = "Standardised attribute values", x = NULL) +
   theme_bw() +
   theme(legend.position = "none")
 
@@ -111,5 +117,4 @@ load("data/cardiac_mean_results")
 load("data/cardiac_se_results")
 load("data/cardiac_rank_results")
 load("data/cardiac_results")
-knitr::kable(tab.all)
-
+knitr::kable(tab.all, align = "r")

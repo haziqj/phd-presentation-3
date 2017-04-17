@@ -38,36 +38,55 @@
   \end{textblock*}
 \end{frame}
 
+\newcommand{\eystari}{{\E[y^*_i]}}
+\newcommand{\ebystar}{{\E[\by^*]}}
+\newcommand{\tfi}{{\tilde f_i}}
+\newcommand{\twk}{{\tilde w_k}}
+\newcommand{\tbw}{{\tilde \bw}}
+\newcommand{\tbVw}{{\tilde\bV_w}}
+\newcommand{\tlam}{{\tilde\lambda}}
+\newcommand{\tvlam}{{\tilde v_\lambda}}
+\newcommand{\talpha}{{\tilde\alpha}}
 \begin{frame}{Posterior distribution}
   \begin{itemize}
     \item Approximate the posterior by a mean-field variational density
     \[
-      p(\by^*,\bw,\alpha,\lambda|\by) \approx \prod_{i=1}^n q(y_i^*)q(\bw)q(\alpha)q(\lambda)\vspace{-2pt}
+      p(\by^*,\bw,\alpha,\lambda|\by) \approx 
+      \prod_{i=1}^n 
+      q(y_i^*)
+      q(\bw)
+      q(\alpha)
+      q(\lambda)
+      \vspace{-2pt}
     \]
     where
   \end{itemize}
   \vspace{-15pt}
   \begin{center}   
     \begin{gather*}
+%    \color{colpur}
       q(y_i^*) \equiv 
       \begin{cases}
         \ind[y_i^* \geq 0] \N(\tilde f_i, 1) &\text{ if } y_i = 1\\
         \ind[y_i^* < 0] \N(\tilde f_i, 1) &\text{ if } y_i = 0\\
       \end{cases}
     \hspace{1cm}
+%    \color{colred}
     q(\bw) \equiv \N(\tilde\bw, \tilde\bV_w) \\[0.5em]
+%    \color{colblu}
     q(\lambda) \equiv \N(\tilde\lambda, \tilde v_w)
-    \hspace{1cm}  
+    \hspace{1cm} 
+%    \color{colgre} 
     q(\alpha) \equiv \N(\tilde\alpha,1/n) \\[0.5em]
-    \tilde f_i = \tilde\alpha + {\textstyle\sum_{k=1}^n} h_{\tilde\lambda}(x_i, x_k)\tilde w_k 
+    \tfi = \talpha + {\textstyle\sum_{k=1}^n} h_{\tlam}(x_i, x_k){\twk}
     \hspace{1cm} 
-    \tilde\alpha = \frac{1}{n}{\textstyle\sum_{k=1}^n} \left( \E[\by^*_i] - h_{\tilde\lambda}(x_i, x_k)\tilde w_k \right) \\[0.3em]
-    \tilde \bw = \tilde\bV_w\bH_{\tilde\lambda}(\E[\by^*] - \tilde\alpha\bone_n)
+    \talpha = \frac{1}{n}{\textstyle\sum_{k=1}^n} \left( \eystari - h_{\tlam}(x_i, x_k) \twk \right) \\[0.3em]
+    \tbw = \tbVw\bH_{\tlam}(\ebystar - \talpha\bone_n)
     \hspace{1cm} 
-    \tilde\bV_w^{-1} = \bH_{\tilde\lambda}^2 + \bI_n \\[0.3em]
-    \tilde\lambda = (\E[\by^*] - \tilde\alpha\bone_n)\bH\tilde\bw / \tilde v_\lambda
+    \tbVw^{-1} = \bH_{\tlam}^2 + \bI_n \\[0.3em]
+    \tlam = (\ebystar - \talpha\bone_n)\bH\tbw / \tvlam
     \hspace{1cm} 
-    \tilde v_\lambda = \tr(\bH^2(\tilde\bV_w + \tilde\bw\tilde\bw^\top))
+    \tvlam = \tr(\bH^2(\tbVw + \tbw\tbw^\top))
     \end{gather*}
   \end{center} 
 \end{frame}
