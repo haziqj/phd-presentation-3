@@ -35,19 +35,19 @@ An extension of the I-prior methodology to binary response data is explored. Sta
 
 ### Cardiac arrhythmia data set 
 
-##### Results of experiments
+#### Results of experiments
 
 ```{r sim.res.cardiac, echo = FALSE}
 ```
 
-##### Plot of results
+#### Plot of results
 
 ```{r plot.readme.cardiac, echo = FALSE, fig.height = 4, fig.width = 5.5}
 ```
 
 ### Meta-analysis of smoking cessation 
 
-##### Model comparison
+#### Model comparison
 
 ```{r data.smoke, include = FALSE}
 ```
@@ -63,12 +63,12 @@ colnames(tab.compare)[4] <- "No. of RKHS param."
 knitr::kable(tab.compare, align = "r")
 ```
 
-##### Model predicted odds (with naive interval)
+#### Model predicted odds (with naive interval)
 
 ```{r tab.smoke.all, echo = FALSE}
 ```
 
-##### Plot of model predicted odds
+#### Plot of model predicted odds
 
 ```{r plot.smoke.all, echo = FALSE, fig.height = 10, fig.width = 6}
 ```
