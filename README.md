@@ -52,7 +52,7 @@ Supplementary material
 
 *Notes: The [Brier score](https://en.wikipedia.org/wiki/Brier_score) measures the accuracy of probabilistic predictions.*
 
-#### Model predicted odds (with naive interval)
+#### Model predicted odds (with naive 95% credibility interval)
 
 | Study           |            Control|            Treated|         Odds ratio|
 |:----------------|------------------:|------------------:|------------------:|
