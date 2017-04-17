@@ -32,4 +32,22 @@ R/data/smokingmod
 
 R/cache
 
-R/smoking*
+R/data/smoking*
+
+*.fdb_latexmk
+
+*.bcf
+
+*.bbl
+
+*.bcf
+
+*.fls
+
+*.log
+
+*.xml
+
+*.gz
+
+R/examples-concordance.tex
