@@ -154,7 +154,7 @@ ggplot(plot.dat, aes(x = variable, y = value, col = Study, group = Study)) +
   directlabels::geom_dl(aes(label = Study),
                         method = list("first.bumpup",
                                       directlabels::dl.trans(x = x - 0.2))) +
-  annotate("text", x = 2.2, y = 0.03, label = lab.msg, size = 3.9,
+  annotate("text", x = 2.38, y = 0.03, label = lab.msg, size = 3.9,
            col = "grey30", lineheight = 0.9) +
   scale_x_discrete(labels = c("Control", "Nicotine gum treatment")) +
   labs(x = NULL, y = "Model predicted odds") +
