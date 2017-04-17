@@ -50,4 +50,11 @@ R/data/smoking*
 
 *.gz
 
+*.nav
+
 R/examples-concordance.tex
+*.snm
+
+*.toc
+
+*.vrb
