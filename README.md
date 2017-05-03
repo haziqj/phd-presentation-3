@@ -86,7 +86,7 @@ Supplementary material
 
 ### Variational inference for Gaussian mean and precision
 
-![variational-example1](figure/var-ex.png)
+<img src="figure/var-ex.png" width="800"> <!-- ![variational-example1](figure/var-ex.png) -->
 
 ![variational-example2](figure/animation.gif)
 

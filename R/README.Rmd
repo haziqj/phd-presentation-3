@@ -73,7 +73,8 @@ knitr::kable(tab.compare, align = c("l", "r", "r", "r"), row.names = TRUE)
 
 ### Variational inference for Gaussian mean and precision
 
-![variational-example1](figure/var-ex.png)
+<img src="figure/var-ex.png" width="650">
+<!-- ![variational-example1](figure/var-ex.png) -->
 
 ![variational-example2](figure/animation.gif)
 
