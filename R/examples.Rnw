@@ -26,6 +26,12 @@ system(paste("biber", sub("\\.Rnw$", "", current_input())))
 
 \begin{document}
 
+\ifstandalone
+  \section{Examples}
+\fi
+
+\subsection{Fisher's Iris data set}
+
 \begin{frame}[fragile]{Fisher's Iris data set}
 <<data.iris, echo = FALSE, fig.width = 7, fig.height = 4.5>>=
 @
@@ -78,6 +84,8 @@ iplot_decbound(mod)
 @
 \end{frame}
 
+\subsection{Cardiac arrhythmia data set}
+
 \begin{frame}[fragile]{Cardiac arrhythmia data set}
 \blfootnote{\fullcite{ArrhythmiaData}}
 \vspace{-20pt}
@@ -97,7 +105,7 @@ iplot_decbound(mod)
 \blfootnote{\fullcite{Cannings2017}}
 \vspace{-20pt}
 \begin{itemize}
-  \item Fit an I-prior probit model using Canonical and FBM kernel. The full data set takes about 35 seconds.
+  \item Fit an I-prior probit model using Canonical and FBM kernels. The full data set takes about 35 seconds.
 \end{itemize}
 \vspace{-5pt}
 <<cardiac-command, eval = FALSE>>=
@@ -125,6 +133,8 @@ mod <- iprior(y, X, kernel = "FBM")
 plotRes()
 @
 \end{frame}
+
+\subsection{Meta-analysis of smoking cessation}
 
 <<data.smoke, include = FALSE>>=
 @

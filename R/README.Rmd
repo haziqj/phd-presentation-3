@@ -29,10 +29,6 @@ An extension of the I-prior methodology to binary response data is explored. Sta
 
 ## Supplementary material
 
-### Variational inference for Gaussian mean and precision
-
-![variational-example](figure/animation.gif)
-
 ### Cardiac arrhythmia data set 
 
 #### Results of experiments
@@ -74,6 +70,14 @@ knitr::kable(tab.compare, align = c("l", "r", "r", "r"), row.names = TRUE)
 
 ```{r plot.smoke.all, echo = FALSE, fig.height = 10, fig.width = 6}
 ```
+
+### Variational inference for Gaussian mean and precision
+
+![variational-example1](figure/var-ex.png)
+
+![variational-example2](figure/animation.gif)
+
+***
 
 Copyright (C) 2017 [Haziq Jamil](http://haziqj.ml). All rights reserved.
 

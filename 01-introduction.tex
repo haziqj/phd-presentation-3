@@ -4,12 +4,12 @@
   \vspace{-5pt}
   \begin{itemize}\setlength\itemsep{1em}
     \item For $i = 1, \dots, n$, consider the regression model
-    \begin{align*}
+    \begin{align}
       \begin{gathered}
         y_i = f(x_i) + \epsilon_i \\
         (\epsilon_1, \dots, \epsilon_n) \sim \N(\bzero, \bPsi^{-1})
       \end{gathered}
-    \end{align*}
+    \end{align}
     where $f \in \cF$, $y_i \in \bbR$, and $x_i = (x_{i1}, \dots, x_{ip}) \in \cX$.
   \end{itemize}
   \begin{center}
@@ -20,7 +20,7 @@
 \begin{frame}{I-priors}
   \vspace{-16pt}
   \blfootnote{\fullcite{Bergsma2017}}  
-  \begin{itemize}\setlength\itemsep{1em}
+  \begin{itemize}\setlength\itemsep{0.3em}
     \item Let $\cF$ be a reproducing kernel Hilbert space (RKHS) with reproducing kernel $h_\lambda: \cX \times \cX \rightarrow \bbR$. An I-prior on $f$ is
     \[
       \big(f(x_1), \dots, f(x_n)\big)^\top \sim \N\big(\bff_0, \cI(f)\big)
@@ -29,6 +29,7 @@
     \[
       \cI\big(f(x), f(x')\big) = \sum_{k=1}^n\sum_{l=1}^n \psi_{kl} h_\lambda(x,x_k) h_\lambda(x',x_l).
     \]
+    \pause
     \item The I-prior regression model for $i = 1,\dots,n$ becomes
     \begin{align*}
       \begin{gathered}
@@ -38,6 +39,7 @@
       \end{gathered}    
     \end{align*}
   \end{itemize}
+  \vspace{2pt}
 \end{frame}
 
 \begin{frame}{I-priors (cont.)}
@@ -46,13 +48,14 @@
   \begin{itemize}\setlength\itemsep{0.8em}
     \item Of interest is the posterior regression function characterised by the distribution
     \[
-      p(\bff | \by ) = \frac{p(\by | \bff) p(\bff)}{\int p(\by | \bff) p(\bff) \d\bff},
+      p(\bff | \by ) = \frac{p(\by | \bff) p(\bff)}{\int p(\by | \bff) p(\bff) \d\bff} \pause,
     \]
     and also the posterior predictive distribution for new data points $x_{\text{new}}$
     \[
       p(y_{\text{new}} | \by) = \int p(y_{\text{new}} | \by, f_{\text{new}}) p(f_{\text{new}} | \by ) \d f_{\text{new}}
     \]
     with $f_{\text{new}} = f(x_{\text{new}})$.
+    \pause
     \item Estimation using EM algorithm or direct maximisation of the marginal likelihood $\log p(y)$.
     \item Complete Bayesian estimation also possible.
   \end{itemize}
@@ -125,7 +128,7 @@
       \includegraphics[page=3,width=\textwidth,height=\textheight]{phd-roadmap}
     \end{center}
   } 
-  \only<1>{
+  \only<4>{
     \begin{center}
       \includegraphics[page=4,width=\textwidth,height=\textheight]{phd-roadmap}
     \end{center}

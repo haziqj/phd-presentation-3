@@ -32,7 +32,7 @@
         &= p(\by|\by^*)p(\by^*|\bff)p(\bw)p(\lambda)p(\alpha) \\
         &= {\textstyle\prod_{i=1}^n} \ind[y_i^* \geq 0]^{y_i} \ind[y_i^* < 0]^{1-y_i} \\
         &\phantom{==} \cdot {\color{colpur} {\textstyle\prod_{i=1}^n} \{ \N(f_i,1) \}} \cdot {\color{colred} [\N(0,1)]^n} \\
-        &\phantom{==} \cdot {\color{colblu} \N(\lambda_0,\kappa_0^{-1})} \cdot  {\color{colgre} \N(\alpha_0,\tau_0^{-1})}
+        &\phantom{==} \cdot {\color{colblu} \N(\lambda_0,\kappa_0^{-1})} \cdot  {\color{colgre} \N(\alpha_0,\nu_0^{-1})}
       \end{align*}
     \end{block}
   \end{textblock*}
@@ -48,6 +48,7 @@
 \newcommand{\tvlam}{{\tilde v_\lambda}}
 \newcommand{\talpha}{{\tilde\alpha}}
 \begin{frame}{Posterior distribution}
+  \vspace{-3pt}
   \begin{itemize}
     \item Approximate the posterior by a mean-field variational density
     \[
@@ -59,7 +60,7 @@
       q(\lambda)
       \vspace{-2pt}
     \]
-    where
+    \pause where
   \end{itemize}
   \vspace{-15pt}
   \begin{center}   
@@ -78,6 +79,7 @@
     \hspace{1cm} 
 %    \color{colgre} 
     q(\alpha) \equiv \N(\tilde\alpha,1/n) \\[0.5em]
+    \onslide<3->{
     \tfi = \talpha + {\textstyle\sum_{k=1}^n} h_{\tlam}(x_i, x_k){\twk}
     \hspace{1cm} 
     \talpha = \frac{1}{n}{\textstyle\sum_{k=1}^n} \left( \eystari - h_{\tlam}(x_i, x_k) \twk \right) \\[0.3em]
@@ -87,8 +89,10 @@
     \tlam = (\ebystar - \talpha\bone_n)\bH\tbw / \tvlam
     \hspace{1cm} 
     \tvlam = \tr(\bH^2(\tbVw + \tbw\tbw^\top))
+    }
     \end{gather*}
   \end{center} 
+  \vspace{2pt}
 \end{frame}
 
 \begin{frame}{Posterior predictive distribution}
@@ -117,7 +121,7 @@
       &= \const + \sum_{i=1}^n \left(y_i \log \Phi(\tilde f_i) + (1-y_i) \log \big(1 - \Phi(\tilde f_i)\big)\right) \\
       &\phantom{==}-\half \left( \tr\tilde\bV_w + \tr (\tilde\bw\tilde\bw^\top) - \log \vert \tilde\bV_w \vert + \log \tilde v_\lambda \right) 
     \end{align*}
-    \item (possible) ISSUE: Different initialisations lead to different converged lower bound values indicating presence of many local optima.
+%    \item (possible) ISSUE: Different initialisations lead to different converged lower bound values indicating presence of many local optima.
   \end{itemize}
 \end{frame}
 

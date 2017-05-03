@@ -17,10 +17,6 @@ Links
 Supplementary material
 ----------------------
 
-### Variational inference for Gaussian mean and precision
-
-![variational-example](figure/animation.gif)
-
 ### Cardiac arrhythmia data set
 
 #### Results of experiments
@@ -87,5 +83,13 @@ Supplementary material
 #### Plot of model predicted odds
 
 ![](README_files/figure-markdown_github/plot.smoke.all-1.png)
+
+### Variational inference for Gaussian mean and precision
+
+![variational-example1](figure/var-ex.png)
+
+![variational-example2](figure/animation.gif)
+
+------------------------------------------------------------------------
 
 Copyright (C) 2017 [Haziq Jamil](http://haziqj.ml). All rights reserved.

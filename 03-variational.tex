@@ -2,7 +2,7 @@
 
 \begin{frame}{Variational inference}
   \vspace{-10pt}
-  \begin{itemize}
+  \begin{itemize}[<+->]
     \item Name derived from calculus of variations which deals with maximising or minimising functionals.
     \begin{table}
       \begin{tabular}{l  l  l }
@@ -30,8 +30,10 @@
   \vspace{-5pt}
   \begin{itemize}\setlength\itemsep{0.8em}
     \item Consider a statistical model where we have observations $(y_1, \dots, y_n)$ and also some latent variables $(z_1, \dots, z_n)$.
+    \pause
     \item The $z_i$ could be random effects or some auxiliary latent variables.
     \item In a Bayesian setting, this could also include the parameters to be estimated.
+    \pause
     \item \textbf{GOAL}: Find approximations for
     \begin{itemize}
       \item The posterior distribution $p(\bz|\by)$; and
@@ -44,16 +46,18 @@
 \begin{frame}{Decomposition of the log marginal}  
   \vspace{-3pt}
   \begin{itemize}\setlength\itemsep{0.5em}
-    \item Let $q(\bz)$ be some density function to approximate $p(\bz|\by)$. Then the log-marginal density can be decomposed into
+    \item Let $q(\bz)$ be some density function to approximate $p(\bz|\by)$. \pause Then the log-marginal density can be decomposed into
     \begin{align*}
       \log p(\by) &= \log p(\by,\bz) - \log p(\bz|\by) \\
-       &= \int \left\{ \log \frac{p(\by,\bz)}{q(\bz)} - \log \frac{p(\bz|\by)}{q(\bz)} \right\} q(\bz) \d \bz \\    
+      \onslide<3->{
+      &= \int \left\{ \log \frac{p(\by,\bz)}{q(\bz)} - \log \frac{p(\bz|\by)}{q(\bz)} \right\} q(\bz) \d \bz \\    
       &=  \cL(q) +  \KL(q \Vert p) \\
-      &\geq \cL(q)    
+      &\geq \cL(q) 
+      }   
     \end{align*}
-    \item $\cL$ is referred to as the ``lower-bound'', and it serves as a surrogate function to the marginal.
-    \item Maximising the $\cL(q)$ is equivalent to minimising $\KL(q \Vert p)$.
-    \item Although $\KL(q \Vert p)$ is minimised at $q(\bz) \equiv p(\bz|\by)$ (c.f. EM algorithm), we are unable to work with $p(\bz|\by)$.
+    \item<4-> $\cL$ is referred to as the ``lower-bound'', and it serves as a surrogate function to the marginal.
+    \item<4-> Maximising $\cL(q)$ is equivalent to minimising $\KL(q \Vert p)$.
+    \item<4-> Although $\KL(q \Vert p)$ is minimised at $q(\bz) \equiv p(\bz|\by)$ (c.f. EM algorithm), we are unable to work with $p(\bz|\by)$.
   \end{itemize}
 \end{frame}
 
@@ -64,22 +68,22 @@
       \includegraphics[scale=0.7]{figure/compare1}
     \end{center}
   }
+%  \only<2|handout:0>{
+%    \begin{center}
+%      \includegraphics[scale=0.7]{figure/compare2}
+%    \end{center}
+%  }  
   \only<2|handout:0>{
-    \begin{center}
-      \includegraphics[scale=0.7]{figure/compare2}
-    \end{center}
-  }  
-  \only<3|handout:0>{
     \begin{center}
       \includegraphics[scale=0.7]{figure/compare3}
     \end{center}
   } 
-  \only<4|handout:0>{
-    \begin{center}
-      \includegraphics[scale=0.7]{figure/compare4}
-    \end{center}
-  } 
-  \only<5|handout:1>{
+%  \only<4|handout:0>{
+%    \begin{center}
+%      \includegraphics[scale=0.7]{figure/compare4}
+%    \end{center}
+%  } 
+  \only<3|handout:1>{
     \begin{center}
       \includegraphics[scale=0.7]{figure/compare5}
     \end{center}
@@ -97,17 +101,17 @@
   \blfootnote{\fullcite{Blei2016}}
   \vspace{-20pt}
   \begin{itemize}
-    \item Maximising $\cL$ over all possible $q$ not feasible. Need some restrictions, but only to achieve tractability.
-    \item Suppose we partition elements of $\bz$ into $m$ disjoint groups $\bz = (\bz^{(1)}, \dots, \bz^{(m)})$, and assume
+    \item<1-> Maximising $\cL$ over all possible $q$ not feasible. Need some restrictions, but only to achieve tractability.
+    \item<1-> Suppose we partition elements of $\bz$ into $m$ disjoint groups $\bz = (\bz^{(1)}, \dots, \bz^{(m)})$, and assume
     \[
       q(\bz) = \prod_{j=1}^m q_j(\bz^{(j)})
     \]
-    \item Under this restriction, the solution to $\argmax_q \cL(q)$ is
+    \item<2-> Under this restriction, the solution to $\argmax_q \cL(q)$ is
     \begin{align}\label{eq:meanfieldsoln}
       \tilde q_j(\bz^{(j)}) \propto \exp\big(\E_{-j}[\log p(\by,\bz)]\big)
     \end{align}
     for $j \in \{1,\dots,m\}$.
-    \item In practice, these unnormalised densities are of recognisable form (especially if conjugate priors are used).
+    \item<3-> In practice, these unnormalised densities are of recognisable form (especially if conjugate priors are used).
     \vspace{4pt}
   \end{itemize}
 \end{frame}
@@ -142,100 +146,4 @@
       \end{minipage}%
     }
   \end{center}
-\end{frame}
-
-\subsection{A simple example}
-
-\setbeamercovered{still covered={\opaqueness<1->{0}},again covered={\opaqueness<1->{15}}}
-\begin{frame}{Estimation of a 1-dim Gaussian mean and variance}
-  \vspace{-5pt}
-  \begin{itemize}
-    \item<1-3> \textbf{GOAL}: Bayesian inference of mean $\mu$ and variance $\psi^{-1}$
-    \begin{center}
-      {\def\arraystretch{1.2}
-      \begin{tabular}{c c l}
-        $\displaystyle y_i \iid \N(\mu, \psi^{-1})$ & & Data \\
-        {\color{gray!88}$\displaystyle \mu|\psi \sim \N\big(\mu_0,(\kappa_0\psi)^{-1}\big)$} & & {\color{gray!88}\multirow{2}{*}{Priors}} \\
-        {\color{gray!88}$\displaystyle \psi \sim \Gamma(a_0,b_0)$} & \\
-        $\displaystyle i=1,\dots,n$ & \\
-      \end{tabular}
-      }
-    \end{center}
-    \item<2-3> Substitute $p(\mu,\psi|\by)$ with the mean-field approximation
-    \[
-      q(\mu, \psi) = q_\mu(\mu) q_\psi(\psi)
-    \]
-    \item<3-> From \eqref{eq:meanfieldsoln}, we can work out the solutions 
-    
-    \only<5|handout:0>{
-    \begin{align*}
-      \log \tilde q_\mu(\mu) 
-      &= \E_\psi[\log p(\by|\mu,\psi)] + \E_\psi[\log p(\mu|\psi)] + \const \\[0.5em]
-    \log \tilde q_\psi(\psi) 
-    &= \E_\mu[\log p(\by|\mu,\psi)] + \E_\mu[\log p(\mu|\psi)] + \log p(\psi) \\
-    &\phantom{==} + \const
-    \end{align*}
-    }
-    
-    \vspace{-3pt}
-    \begin{gather*}
-      \uncover<6->{
-      \hspace{-12pt}\tilde q_\mu(\mu) \equiv \N \left(\frac{\kappa_0 \mu_0 + n\bar y}{\kappa_0 + n}, \frac{1}{(\kappa_0 + n)\E_q[\psi]} \right)}
-      \uncover<7->{
-      \ \text{ and } \ \
-      \tilde q_\psi(\psi) \equiv \Gamma(\tilde a, \tilde b) \\[0.5em]
-      \hspace{-12pt}\tilde a = a_0 + \half[n] \hspace{1.1cm} \tilde b = b_0 + \half \E_q\Big[ {\textstyle\sum_{i=1}^n} (y_i - \mu)^2 + \kappa_0(\mu - \mu_0)^2 \Big]
-      }
-    \end{gather*}
-  \end{itemize}
-  
-  \only<4-|handout:0>{
-  \begin{textblock*}{0.8\textwidth}(1.35cm,0.215\textheight)
-    \begin{block}{}
-      \begin{itemize}
-        \item Under the mean-field restriction, the solution to $\argmax_q \cL(q)$ is
-        \begin{align*}
-          \tilde q_j(\bz^{(j)}) \propto \exp\big(\E_{-j}[\log p(\by,\bz)]\big)
-          \rlap{\hspace{1.3cm}(1)}
-        \end{align*}
-        for $j \in \{1,\dots,m\}$.  
-      \end{itemize}
-    \end{block}
-  \end{textblock*}
-  }
-
-\end{frame}
-
-\begin{frame}{Estimation of a 1-dim Gaussian mean and variance (cont.)}
-  \vspace{-5pt}
-%  \only<1>{
-%    \begin{center}
-%      \includegraphics[scale=0.7]{figure/vbupdate}
-%    \end{center}
-%  } 
-  \only<1|handout:1>{
-    \begin{center}
-      \includegraphics[scale=0.7]{figure/vbupdate_7}
-    \end{center}
-  } 
-  \only<2|handout:2>{
-    \begin{center}
-      \includegraphics[scale=0.7]{figure/vbupdate_1}
-    \end{center}
-  } 
-  \only<3|handout:3>{
-    \begin{center}
-      \includegraphics[scale=0.7]{figure/vbupdate_2}
-    \end{center}
-  } 
-  \only<4|handout:4>{
-    \begin{center}
-      \includegraphics[scale=0.7]{figure/vbupdate_3}
-    \end{center}
-  } 
-  \only<5|handout:5>{
-    \begin{center}
-      \includegraphics[scale=0.7]{figure/vbupdate_4}
-    \end{center}
-  } 
 \end{frame}
