@@ -192,6 +192,13 @@
     }
 }
 
+% Fix for allowframebreaks noframenumbering
+\usepackage{etoolbox}
+\makeatletter
+\preto{\appendix}{%
+  \patchcmd{\beamer@continueautobreak}{\refstepcounter{framenumber}}{}{}{}}
+\makeatother
+
 % Title page
 \newcommand{\mytitle}{
   \begin{frame}[plain]

@@ -1,33 +1,9 @@
 \subsection{Introduction}
 
 \begin{frame}{Variational inference}
-  \vspace{-10pt}
-  \begin{itemize}[<+->]
-    \item Name derived from calculus of variations which deals with maximising or minimising functionals.
-    \begin{table}
-      \begin{tabular}{l  l  l }
-      Functions   &$p:\theta \mapsto \bbR$  &(standard calculus) \\ 
-      Functionals &$\cH:p \mapsto \bbR$     &(variational calculus) \\ 
-      \end{tabular}
-    \end{table}
-  \item Using standard calculus, we can solve
-  \[
-    \argmax_\theta p(\theta) =: \hat\theta
-  \]
-  e.g. $p$ is a likelihood function, and $\hat\theta$ is the ML estimate.
-  \item Using variational calculus, we can solve
-  \[
-    \argmax_p \cH(p) =: \tilde p
-  \]
-  e.g. $\cH$ is the entropy $\cH = - \int p(x)\log p(x) \d x$, and $\tilde p$ is the entropy maximising distribution.
-  \end{itemize}
-  \vspace{5pt}
-\end{frame}
-
-\begin{frame}{Variational inference (cont.)}
   \blfootnote{\fullcite[Ch. 10]{Bishop2006}}
   \blfootnote{\fullcite[Ch. 21]{Murphy1991}}
-  \vspace{-5pt}
+  \vspace{-10pt}
   \begin{itemize}\setlength\itemsep{0.8em}
     \item Consider a statistical model where we have observations $(y_1, \dots, y_n)$ and also some latent variables $(z_1, \dots, z_n)$.
     \pause
@@ -97,6 +73,8 @@
   \end{center}
 \end{frame}
 
+\subsection{Mean-field factorisation}
+
 \begin{frame}{Factorised distributions (Mean-field theory)}
   \blfootnote{\fullcite{Blei2016}}
   \vspace{-20pt}
@@ -116,7 +94,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Coordinate ascent mean-field variational inference (CAVI)}
+\begin{frame}[label=cavi]{Coordinate ascent mean-field variational inference (CAVI)}
   \vspace{-5pt}
   \begin{itemize}\setlength\itemsep{0.4em}
     \item The optimal distributions are coupled with another, i.e. each $\tilde q_j(\bz^{(j)})$ depends on the optimal moments of $\bz^{(k)}$, $k \in \{1,\dots,m:k \neq j\}$.
@@ -140,10 +118,14 @@
         \EndFor
         \State $\cL(q) \gets \E_{ q}[\log p(\by, \bz)] - \E_{ q}[\log q(\bz)]$
       \EndWhile
-      \State \textbf{return} $\tilde q(\bz) = \prod_{j=1}^m \tilde q_j(\bz^{(j)})$
+      \State \textbf{return} $\tilde q(\bz) = \prod_{j=1}^m \tilde q_j(\bz^{(j)})$ 
     \end{algorithmic}
   \end{algorithm}
       \end{minipage}%
     }
   \end{center}
+  
+  \begin{textblock*}{3cm}(.89\textwidth,1\textheight)%
+    \hyperlink{varex}{\beamerbutton{example}}      
+  \end{textblock*}
 \end{frame}

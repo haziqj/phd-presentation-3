@@ -30,7 +30,7 @@ system(paste("biber", sub("\\.Rnw$", "", current_input())))
   \section{Examples}
 \fi
 
-\subsection{Fisher's Iris data set}
+\subsection*{Fisher's Iris data set}
 
 \begin{frame}[fragile]{Fisher's Iris data set}
 <<data.iris, echo = FALSE, fig.width = 7, fig.height = 4.5>>=
@@ -84,7 +84,7 @@ iplot_decbound(mod)
 @
 \end{frame}
 
-\subsection{Cardiac arrhythmia data set}
+\subsection*{Cardiac arrhythmia data set}
 
 \begin{frame}[fragile]{Cardiac arrhythmia data set}
 \blfootnote{\fullcite{ArrhythmiaData}}
@@ -134,7 +134,7 @@ plotRes()
 @
 \end{frame}
 
-\subsection{Meta-analysis of smoking cessation}
+\subsection*{Meta-analysis of smoking cessation}
 
 <<data.smoke, include = FALSE>>=
 @
