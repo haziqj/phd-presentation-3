@@ -9,7 +9,7 @@ An extension of the I-prior methodology to binary response data is explored. Sta
 Links
 -----
 
--   Presentation slides - PDF *\[link to appear\]*
+-   Presentation slides - [PDF](https://github.com/haziqjamil/phd-presentation-3/blob/master/phd-presentation-3-handout.pdf)
 -   Source code - [GitHub](https://github.com/haziqjamil/phd-presentation-3)
 -   R/iprior package - [CRAN](https://cran.r-project.org/package=iprior), [GitHub](https://github.com/haziqjamil/iprior)
 -   R/iprobit package - [GitHub](https://github.com/haziqjamil/iprobit)
@@ -85,6 +85,8 @@ Supplementary material
 ![](README_files/figure-markdown_github/plot.smoke.all-1.png)
 
 ### Variational inference for Gaussian mean and precision
+
+Adapted from pp.36-37 of the presentation.
 
 <img src="figure/var-ex.png" width="650"> <!-- ![variational-example1](figure/var-ex.png) -->
 
