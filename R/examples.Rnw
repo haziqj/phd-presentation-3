@@ -237,5 +237,6 @@ plotRes()
 
 <<move, include = FALSE>>=
 files <- list.files("figure/")
-file.copy(file.path("figure", files), file.path("../figure", files))
+file.copy(file.path("figure", files), file.path("../figure", files),
+          overwrite = TRUE)
 @

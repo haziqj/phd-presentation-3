@@ -5,7 +5,7 @@ library(RPEnsemble)
 library(ggplot2)
 library(foreach)
 library(doSNOW)
-no.cores <- detectCores() / 2   # or set number of cores
+no.cores <- detectCores()  # or set number of cores
 
 # For push notifications using pushoverR, set here
 # For more information, check out https://github.com/briandconnelly/pushoverr
@@ -20,12 +20,9 @@ meanAndSE <- function(x, y) paste0(decPlac(x, 2), " (", decPlac(y, 2), ")")
 
 # Function to calculate ranks
 tabRank <- function(x, y) {
-  # This is based on a weighted average
+  # This is based on a weighted average. More weight given if low classification
+  # error in small sammple size
   tmp <- apply(x + y, 1, function(x) sum(n * x) / sum(n))
-  # tmp.mat <- matrix(unlist(tmp), ncol = length(tmp), byrow = FALSE)
-  # res <- rank(apply(tmp.mat, 1, sum), ties.method = "min")
-  # names(res) <- rownames(x)
-  # res
   rank(tmp)
 }
 
@@ -81,8 +78,13 @@ tabRes <- function(...) {
 # I-prior probit innersim
 probitInnerSim <- function(y.innerSim, X.innerSim, n.innerSim, kernel) {
   dat <- testTrain(n.innerSim, y.innerSim, X.innerSim)
-  mod <- iprobit(dat$y.train, dat$X.train, kernel = kernel, maxit = 1000)
+  # Not letting the algorithm converge fully. Want a local optima for better
+  # predictive performance.
+  mod <- iprobit(dat$y.train, dat$X.train, kernel = kernel, maxit = 5)
   y.test <- predict(mod, newdata = dat$X.test)$y
+  coef.mod <- c(mod$alpha, mod$lambda)
+  names(coef.mod) <- c("alpha", "lambda")
+  print(coef.mod)
   mean(y.test != dat$y.test) * 100
 }
 
