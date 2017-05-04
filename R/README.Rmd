@@ -38,7 +38,7 @@ An extension of the I-prior methodology to binary response data is explored. Sta
 
 #### Plot of results
 
-```{r plot.readme.cardiac, echo = FALSE, fig.height = 4, fig.width = 5.5}
+```{r plot.readme.cardiac, echo = FALSE, fig.height = 3.5, fig.width = 5.5}
 ```
 
 ### Meta-analysis of smoking cessation 
