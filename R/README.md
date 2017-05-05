@@ -14,8 +14,8 @@ Links
 -   R/iprior package - [CRAN](https://cran.r-project.org/package=iprior), [GitHub](https://github.com/haziqjamil/iprior)
 -   R/iprobit package - [GitHub](https://github.com/haziqjamil/iprobit)
 
-Supplementary material
-----------------------
+Main results
+------------
 
 ### Fisher's Iris data set
 
@@ -144,6 +144,9 @@ Estimating the treatment effect of nicotine gum to aid smoking cessation from a 
 #### Plot of model predicted odds
 
 ![](README_files/figure-markdown_github/plot.smoke.all-1.png)
+
+Supplementary material
+----------------------
 
 ### Variational inference for Gaussian mean and precision
 

@@ -28,7 +28,7 @@ An extension of the I-prior methodology to binary response data is explored. Sta
 - R/iprior package - [CRAN](https://cran.r-project.org/package=iprior), [GitHub](https://github.com/haziqjamil/iprior)
 - R/iprobit package - [GitHub](https://github.com/haziqjamil/iprobit)
 
-## Supplementary material
+## Main results
 
 ### Fisher's Iris data set
 
@@ -112,6 +112,8 @@ knitr::kable(tab.compare, align = c("l", "r", "r", "r"), row.names = TRUE)
 
 ```{r plot.smoke.all, echo = FALSE, fig.height = 10, fig.width = 6}
 ```
+
+## Supplementary material
 
 ### Variational inference for Gaussian mean and precision
 
