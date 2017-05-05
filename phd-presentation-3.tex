@@ -1,4 +1,4 @@
-\documentclass[handout]{beamer}
+\documentclass[]{beamer}
 %\documentclass[xcolor={dvipsnames}, handout]{beamer}  % for printing
 \usepackage{standalone}
 \usepackage{haziq_beamer}
@@ -50,11 +50,10 @@
 \section[Variational]{Variational inference}
 \transition
 \input{03-variational}
-
-\section{Implementation}
-\transition
 \input{04-examples}
-\subsection{Examples}
+
+\section{Examples}
+\transition
 \input{R/examples}
 
 \section{Summary}
@@ -77,8 +76,9 @@
 
 \beginbackup
 \section{Additional material}
-\transition
+\transitionsubsec
 \input{06-additional-material}
+\input{R/fishers-iris}
 \backupend
 
 \end{document}

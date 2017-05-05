@@ -74,7 +74,7 @@
   \end{center}
 \end{frame}
 
-\subsection{Introduction to variational inference}
+\subsection{Variational inference}
 
 \begin{frame}{Variational inference}
   \vspace{-10pt}
@@ -98,6 +98,42 @@
   e.g. $\cH$ is the entropy $\cH = - \int p(x)\log p(x) \d x$, and $\tilde p$ is the entropy maximising distribution.
   \end{itemize}
   \vspace{5pt}
+\end{frame}
+
+\begin{frame}{Comparison of approximations (density)}
+  \vspace{-5pt}
+  \only<1|handout:0>{
+    \begin{center}
+      \includegraphics[scale=0.7]{figure/compare1}
+    \end{center}
+  }
+%  \only<2|handout:0>{
+%    \begin{center}
+%      \includegraphics[scale=0.7]{figure/compare2}
+%    \end{center}
+%  }  
+  \only<2|handout:0>{
+    \begin{center}
+      \includegraphics[scale=0.7]{figure/compare3}
+    \end{center}
+  } 
+%  \only<4|handout:0>{
+%    \begin{center}
+%      \includegraphics[scale=0.7]{figure/compare4}
+%    \end{center}
+%  } 
+  \only<3|handout:1>{
+    \begin{center}
+      \includegraphics[scale=0.7]{figure/compare5}
+    \end{center}
+  } 
+\end{frame}
+
+\begin{frame}{Comparison of approximations (deviance)}
+  \vspace{-5pt}
+  \begin{center}
+    \includegraphics[scale=0.7]{figure/compare6}
+  \end{center}
 \end{frame}
 
 \subsection{A simple variational inference example}

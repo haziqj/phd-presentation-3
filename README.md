@@ -17,7 +17,66 @@ Links
 Supplementary material
 ----------------------
 
+### Fisher's Iris data set
+
+Varitional inference for I-prior probit models are implemented in the `R` package `iprobit`. A simple demonstratation is shown using the classical Fisher's Iris data set, where the goal is to distinguish between the two classes (Setosa vs. Others).
+
+![](README_files/figure-markdown_github/data.iris-1.png)
+
+#### Model fitting
+
+``` r
+R> system.time(
++   (mod <- iprobit(y, X))
++ )
+```
+
+    ## 
+    ## |=================================                     |  61%
+    ##  Converged after 6141 iterations.
+    ##  Training error rate: 0 %
+    ##     user  system elapsed
+    ##   67.857   6.396  74.277
+
+#### Model summary
+
+``` r
+R> summary(mod)
+```
+
+    ## 
+    ## Call:
+    ## iprobit(y = y, X, maxit = 10000)
+    ## 
+    ## RKHS used: Canonical 
+    ## 
+    ##           Mean   S.E.    2.5%   97.5%
+    ## alpha  -4.1730 0.0816 -4.3330 -4.0129
+    ## lambda  1.2896 0.0142  1.2618  1.3175
+    ## 
+    ## Converged to within 1e-05 tolerance. No. of iterations: 6141
+    ## Model classification error rate (%): 0
+    ## Variational lower bound: -12.93486
+
+#### Monitoring the lower bound
+
+``` r
+R> iplot_lb(mod, niter.plot = 10)
+```
+
+![](README_files/figure-markdown_github/iris-lb-1.png)
+
+#### Decision boundary
+
+``` r
+R> iplot_decbound(mod)
+```
+
+![](README_files/figure-markdown_github/iris-decbound-1.png)
+
 ### Cardiac arrhythmia data set
+
+Distinguishing between the presence and absence of cardiac arrhythmia based on 194 predictors which includes various ECG data and other attributes such as age and weight.
 
 #### Results of experiments
 
@@ -37,6 +96,8 @@ Supplementary material
 ![](README_files/figure-markdown_github/plot.readme.cardiac-1.png)
 
 ### Meta-analysis of smoking cessation
+
+Estimating the treatment effect of nicotine gum to aid smoking cessation from a meta-analysis of 27 independent scientific studies.
 
 #### Model comparison
 

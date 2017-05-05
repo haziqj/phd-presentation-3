@@ -8,6 +8,7 @@ options(prompt = "R> ")
 
 # Load external .R file
 knitr::read_chunk("01-prelim.R")
+knitr::read_chunk("05-iris.R")
 knitr::read_chunk("07-cardiac.R")
 knitr::read_chunk("08-smoking.R")
 ```
@@ -29,7 +30,46 @@ An extension of the I-prior methodology to binary response data is explored. Sta
 
 ## Supplementary material
 
+### Fisher's Iris data set
+
+Varitional inference for I-prior probit models are implemented in the `R` package `iprobit`. A simple demonstratation is shown using the classical Fisher's Iris data set, where the goal is to distinguish between the two classes (Setosa vs. Others).
+
+```{r data.iris, echo = FALSE, fig.width = 7, fig.height = 4.5}
+```
+
+#### Model fitting
+
+```{r mod.iris, include = FALSE, cache = TRUE}
+```
+```{r fake.mod.iris, echo = 1:3, eval = FALSE}
+```
+```{r fake.mod.iris, echo = FALSE, eval = 2}
+```
+
+#### Model summary
+
+```{r iris.summary}
+summary(mod)
+```
+
+#### Monitoring the lower bound
+
+```{r iris-lb-command, eval = FALSE}
+iplot_lb(mod, niter.plot = 10)
+```
+```{r iris-lb, echo = FALSE, fig.width = 7, fig.height = 4}
+iplot_lb(mod, niter.plot = 10, lab.pos = "down")
+```
+
+#### Decision boundary
+
+```{r iris-decbound, fig.width = 7, fig.height = 4}
+iplot_decbound(mod)
+```
+
 ### Cardiac arrhythmia data set 
+
+Distinguishing between the presence and absence of cardiac arrhythmia based on 194 predictors which includes various ECG data and other attributes such as age and weight.
 
 #### Results of experiments
 
@@ -42,6 +82,8 @@ An extension of the I-prior methodology to binary response data is explored. Sta
 ```
 
 ### Meta-analysis of smoking cessation 
+
+Estimating the treatment effect of nicotine gum to aid smoking cessation from a meta-analysis of 27 independent scientific studies.
 
 #### Model comparison
 

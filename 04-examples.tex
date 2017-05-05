@@ -1,4 +1,4 @@
-\subsection{R/\texttt{iprobit}}
+\subsection{Variational I-prior probit}
 
 \begin{frame}{Variational I-prior probit}
   \begin{tikzpicture}[scale=1.1, transform shape]
@@ -95,6 +95,21 @@
   \vspace{2pt}
 \end{frame}
 
+\begin{frame}{Variational lower bound}
+  \begin{itemize}\setlength\itemsep{1em}
+    \item Since the solutions are coupled, we implement an iterative scheme \\ (as per Algorithm \ref{alg:cavi})
+    \item Assess convergence by monitoring the lower bound
+    \begin{align*}
+      \cL 
+      &= \E_q[\log p(\by,\by^*,\bw,\alpha,\lambda)] - \E_q[\log q(\by^*,\bw,\alpha,\lambda)] \\
+      &= \const + \sum_{i=1}^n \left(y_i \log \Phi(\tilde f_i) + (1-y_i) \log \big(1 - \Phi(\tilde f_i)\big)\right) \\
+      &\phantom{==}-\half \left( \tr\tilde\bV_w + \tr (\tilde\bw\tilde\bw^\top) - \log \vert \tilde\bV_w \vert + \log \tilde v_\lambda \right) 
+    \end{align*}
+    \item (possible) ISSUE: Different initialisations lead to different converged lower bound values indicating presence of many local optima.
+    \item From experience, typically local optima gives better predictive abilities.
+  \end{itemize}
+\end{frame}
+
 \begin{frame}{Posterior predictive distribution}
   \begin{itemize}\setlength\itemsep{1em}
     \item Given new data points $x_{\text{new}}$, interested in
@@ -110,28 +125,3 @@
     \item $f_{\text{new}}$ represents the estimate of the latent propensity for $y_{\text{new}}$, and its uncertainty is described by $q(y_{\text{new}}^*)$.
   \end{itemize}
 \end{frame}
-
-\begin{frame}{Variational lower bound}
-  \begin{itemize}\setlength\itemsep{1em}
-    \item Since the solutions are coupled, we implement an iterative scheme \\ (as per Algorithm \ref{alg:cavi})
-    \item Assess convergence by monitoring the lower bound
-    \begin{align*}
-      \cL 
-      &= \E_q[\log p(\by,\by^*,\bw,\alpha,\lambda)] - \E_q[\log q(\by^*,\bw,\alpha,\lambda)] \\
-      &= \const + \sum_{i=1}^n \left(y_i \log \Phi(\tilde f_i) + (1-y_i) \log \big(1 - \Phi(\tilde f_i)\big)\right) \\
-      &\phantom{==}-\half \left( \tr\tilde\bV_w + \tr (\tilde\bw\tilde\bw^\top) - \log \vert \tilde\bV_w \vert + \log \tilde v_\lambda \right) 
-    \end{align*}
-%    \item (possible) ISSUE: Different initialisations lead to different converged lower bound values indicating presence of many local optima.
-  \end{itemize}
-\end{frame}
-
-
-
-
-
-
-
-
-
-
-
