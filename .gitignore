@@ -60,3 +60,7 @@ R/examples-concordance.tex
 *.vrb
 
 R/README.md
+
+R/README_cache/
+
+R/README_files/
