@@ -55,7 +55,7 @@ system(paste("biber", sub("\\.Rnw$", "", current_input())))
 \end{itemize}
 \vspace{-5pt}
 <<cardiac-command, eval = FALSE>>=
-mod <- iprior(y, X, kernel = "FBM")
+mod <- iprobit(y, X, kernel = "FBM")
 @
 \vspace{-10pt}
 \begin{itemize}
