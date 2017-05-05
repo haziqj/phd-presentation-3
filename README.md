@@ -17,6 +17,11 @@ Links
 Main results
 ------------
 
+-   [Variational I-prior probit models in R](#fishers-iris-data-set)
+-   [Cardiac arrhythmia data set](#cardiac-arrhythmia-data-set)
+-   [Meta-analysis of smoking cessation](#meta-analysis-of-smoking-cessation)
+-   [Other supplementary material](#supplementary-material)
+
 ### Fisher's Iris data set
 
 Varitional inference for I-prior probit models are implemented in the `R` package `iprobit`. A simple demonstratation is shown using the classical Fisher's Iris data set, where the goal is to distinguish between the two classes (Setosa vs. Others).
