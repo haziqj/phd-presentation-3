@@ -18,7 +18,7 @@ Main results
 ------------
 
 -   [Variational I-prior probit models in R](#fishers-iris-data-set)
--   [Cardiac arrhythmia data set](#cardiac-arrhythmia-data-set)
+-   [Predicting cardiac arrhythmia](#cardiac-arrhythmia-data-set)
 -   [Meta-analysis of smoking cessation](#meta-analysis-of-smoking-cessation)
 -   [Other supplementary material](#supplementary-material)
 
@@ -81,9 +81,11 @@ R> iplot_decbound(mod)
 
 ### Cardiac arrhythmia data set
 
-Distinguishing between the presence and absence of cardiac arrhythmia based on 194 predictors which includes various ECG data and other attributes such as age and weight.
+Distinguishing between the presence and absence of cardiac arrhythmia based on 194 predictors which includes various ECG data and other attributes such as age and weight. The out-of-sample prediction error is compared against various popular classififiers. The training set was sub-sampled from the full data set, and the remaining data served as the validation set.
 
 #### Results of experiments
+
+The table shows the average misclassification rates (out of 100) and standard errors from 100 repetitions of the experiments. The ranks are a simple weighted average across sub-samples, with more weight given to small misclassification rates and small sub-samples.
 
 |                    |        n = 50|       n = 100|       n = 200|  Rank|
 |--------------------|-------------:|-------------:|-------------:|-----:|
@@ -106,6 +108,8 @@ Estimating the treatment effect of nicotine gum to aid smoking cessation from a 
 
 #### Model comparison
 
+Model 1 only considers treatment effect and ignores study-groups. Model 2 considers both treatment and study-group effects. Model 3 is similar to Model 2 with an addition of an interaction effect between treatment and study groups. Model 3 is the model chosen, as it implies the effectiveness of the treatments on quitting smoking varies across study groups.
+
 |     | Model                                                |  Lower bound|  Brier score|  No. of RKHS param.|
 |-----|:-----------------------------------------------------|------------:|------------:|-------------------:|
 | 1   | *f*<sub>1</sub>                                      |     -3210.79|       0.0311|                   1|
@@ -114,7 +118,9 @@ Estimating the treatment effect of nicotine gum to aid smoking cessation from a 
 
 *Notes: The [Brier score](https://en.wikipedia.org/wiki/Brier_score) measures the accuracy of probabilistic predictions.*
 
-#### Model predicted odds (with naive 95% credibility interval)
+#### Model predicted odds
+
+Unlike logistic models, the fitted probabilities and hence the odds needed to be calculated manually. These, together with the naive 95% credibility interval, are tabulated below for each of the 27 studies.
 
 | Study           |            Control|            Treated|         Odds ratio|
 |:----------------|------------------:|------------------:|------------------:|
@@ -155,7 +161,7 @@ Supplementary material
 
 ### Variational inference for Gaussian mean and precision
 
-Adapted from pp.36-37 of the presentation.
+Adapted from pp.31-32 of the presentation.
 
 <img src="figure/var-ex.png" width="650"> <!-- ![variational-example1](figure/var-ex.png) -->
 
