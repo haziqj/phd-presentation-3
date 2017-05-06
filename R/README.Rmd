@@ -74,11 +74,11 @@ iplot_decbound(mod)
 
 ### Cardiac arrhythmia data set 
 
-Distinguishing between the presence and absence of cardiac arrhythmia based on 194 predictors which includes various ECG data and other attributes such as age and weight. The out-of-sample prediction error is compared against various popular classififiers. The training set was sub-sampled from the full data set, and the remaining data served as the validation set.
+Distinguishing between the presence and absence of cardiac arrhythmia based on 194 predictors which includes various ECG data and other attributes such as age and weight. The out-of-sample prediction error is compared against various popular classififiers. The training sets were subsampled from the full data set, and the remaining data served as the validation set.
 
 #### Results of experiments
 
-The table shows the average misclassification rates (out of 100) and standard errors from 100 repetitions of the experiments. The ranks are a simple weighted average across sub-samples, with more weight given to small misclassification rates and small sub-samples.
+The table shows the average misclassification rates (out of 100) and standard errors from 100 repetitions of the experiments. Ranking was done based on a simple weighted average across subsamples, with more weight given to small misclassification rates and small sub-samples.
 
 ```{r sim.res.cardiac, echo = FALSE}
 ```
