@@ -39,8 +39,8 @@
 \end{frame}
 
 \subsection{Laplace's method}
-\begin{frame}{Laplace's method}
-  \blfootnote{\fullcite[§4.1, pp. 777-778.]{Kass1995}}
+\begin{frame}[label=laplace]{Laplace's method}
+  \blfootnote{\fullcite[§4.1, pp.777-778.]{Kass1995}}
   \vspace{-15pt}
   \begin{itemize}[<+->]\setlength\itemsep{0.8em}
     \item Interested in $p(\bff|\by) \propto p(\by|\bff)p(\bff) =: e^{Q(\bff)}$, with normalising constant $p(\by) = \int e^{Q(\bff)} \d\bff$. The Taylor expansion of $Q$ about its mode $\tilde\bff$
@@ -54,10 +54,14 @@
     \]
     \item Won't scale with large $n$; difficult to find modes in high dimensions.
   \end{itemize}
+  
+  \begin{textblock*}{3cm}(.982\textwidth,1.04\textheight)%
+    \hyperlink{estimation}{\beamerbutton{back}}      
+  \end{textblock*}
 \end{frame}
 
 \subsection{Full Bayesian analysis of I-probit models}
-\begin{frame}{Full Bayesian analysis using MCMC}
+\begin{frame}[label=mcmc]{Full Bayesian analysis using MCMC}
   \vspace{-3pt}
   \begin{itemize}\setlength\itemsep{0.5em}
     \item Assign hyperpriors on parameters of the I-prior, e.g.
@@ -72,6 +76,10 @@
   \begin{center}
     \includegraphics[scale=0.6]{mcmc1}
   \end{center}
+
+  \begin{textblock*}{3cm}(.982\textwidth,1.04\textheight)%
+    \hyperlink{estimation}{\beamerbutton{back}}      
+  \end{textblock*}  
 \end{frame}
 
 \subsection{Variational inference}
@@ -100,7 +108,7 @@
   \vspace{5pt}
 \end{frame}
 
-\begin{frame}{Comparison of approximations (density)}
+\begin{frame}[label=varcompare]{Comparison of approximations (density)}
   \vspace{-5pt}
   \only<1|handout:0>{
     \begin{center}
@@ -127,6 +135,10 @@
       \includegraphics[scale=0.7]{figure/compare5}
     \end{center}
   } 
+  
+  \begin{textblock*}{3cm}(.982\textwidth,1.04\textheight)%
+    \hyperlink{summary}{\beamerbutton{back}}      
+  \end{textblock*}
 \end{frame}
 
 \begin{frame}{Comparison of approximations (deviance)}
@@ -134,6 +146,10 @@
   \begin{center}
     \includegraphics[scale=0.7]{figure/compare6}
   \end{center}
+
+  \begin{textblock*}{3cm}(.982\textwidth,1.04\textheight)%
+    \hyperlink{summary}{\beamerbutton{back}}      
+  \end{textblock*}  
 \end{frame}
 
 \subsection{A simple variational inference example}

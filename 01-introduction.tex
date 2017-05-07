@@ -23,7 +23,7 @@
   \begin{itemize}\setlength\itemsep{0.3em}
     \item Let $\cF$ be a reproducing kernel Hilbert space (RKHS) with reproducing kernel $h_\lambda: \cX \times \cX \rightarrow \bbR$. An I-prior on $f$ is
     \[
-      \big(f(x_1), \dots, f(x_n)\big)^\top \sim \N\big(\bff_0, \cI(f)\big)
+      \big(f(x_1), \dots, f(x_n)\big)^\top \sim \N\big(\bff_0, \cI(f)\big),
     \] 
     with $\bff_0$ a prior mean, and $\cI$ the Fisher information for $f$, given by
     \[
@@ -31,13 +31,13 @@
     \]
     \pause
     \item The I-prior regression model for $i = 1,\dots,n$ becomes
-    \begin{align*}
+    \begin{align}
       \begin{gathered}
         y_i = f_0(x_i) + \sum_{k=1}^n h_\lambda(x_i, x_k)w_k + \epsilon_i \\
         (w_1, \dots, w_n) \sim \N(\bzero, \bPsi) \\
-        (\epsilon_1, \dots, \epsilon_n) \sim \N(\bzero, \bPsi^{-1})
+        (\epsilon_1, \dots, \epsilon_n) \sim \N(\bzero, \bPsi^{-1}).
       \end{gathered}    
-    \end{align*}
+    \end{align}
   \end{itemize}
   \vspace{2pt}
 \end{frame}

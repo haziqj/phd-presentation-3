@@ -43,7 +43,7 @@
       \begin{gathered}
         f(x_i) = {\color{gray} \overbrace{\color{black} f_0(x_i)}^{\alpha}} 
         + \sum_{k=1}^n h_\lambda(x_i, x_k)w_k \\
-        (w_1, \dots, w_n) \sim \N(\bzero, \bPsi) \\
+        (w_1, \dots, w_n) \sim \N(\bzero, \bPsi). \\
       \end{gathered}
     \end{align*}
     }
@@ -65,7 +65,7 @@
 
 \subsection{Estimation (and challenges)}
 
-\begin{frame}{Estimation}
+\begin{frame}[label=estimation]{Estimation}
   \vspace{5pt}
   \begin{columns}
     \uncover<1->{
@@ -100,8 +100,8 @@
     \begin{itemize}
       \item[\xmark]<2-> Naive Monte-Carlo integral
       \item[\xmark]<3-> EM algorithm with a MCMC E-step
-      \item[{\color{FUorange}\cmark}]<4-> Laplace approximation
-      \item[{\color{FUorange}\cmark}]<5-> MCMC sampling
+      \item[{\color{FUorange}\cmark}]<4-> Laplace approximation \hyperlink{laplace}{\beamerbutton{details}}    
+      \item[{\color{FUorange}\cmark}]<5-> MCMC sampling \hyperlink{mcmc}{\beamerbutton{details}}   
     \end{itemize}
   \end{itemize}
 \end{frame}

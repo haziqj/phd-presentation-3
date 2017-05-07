@@ -22,7 +22,7 @@
 \begin{frame}{Decomposition of the log marginal}  
   \vspace{-3pt}
   \begin{itemize}\setlength\itemsep{0.5em}
-    \item Let $q(\bz)$ be some density function to approximate $p(\bz|\by)$. \pause Then the log-marginal density can be decomposed into
+    \item Let $q(\bz)$ be some density function to approximate $p(\bz|\by)$. \pause Then the log-marginal density can be decomposed as follows:
     \begin{align*}
       \log p(\by) &= \log p(\by,\bz) - \log p(\bz|\by) \\
       \onslide<3->{
@@ -46,7 +46,7 @@
     \item<1-> Maximising $\cL$ over all possible $q$ not feasible. Need some restrictions, but only to achieve tractability.
     \item<1-> Suppose we partition elements of $\bz$ into $m$ disjoint groups $\bz = (\bz^{(1)}, \dots, \bz^{(m)})$, and assume
     \[
-      q(\bz) = \prod_{j=1}^m q_j(\bz^{(j)})
+      q(\bz) = \prod_{j=1}^m q_j(\bz^{(j)}).
     \]
     \item<2-> Under this restriction, the solution to $\argmax_q \cL(q)$ is
     \begin{align}\label{eq:meanfieldsoln}

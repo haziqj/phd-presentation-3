@@ -1,5 +1,5 @@
 %\subsection*{Summary}
-\begin{frame}{Summary}
+\begin{frame}[label=summary]{Summary}
   \blfootnote{Slides, source code and results are made available at: {\color{fu-red!70}\url{http://phd3.haziqj.ml}}}
   \vspace{-10pt}
   \begin{itemize}\setlength\itemsep{0.8em}
@@ -7,15 +7,15 @@
     \item Variational inference used to approximate the intractable likelihood.
     \begin{itemize}
       \item A deterministic approximation of the posterior density by a ``close'' (in the KL divergence sense), tractable density.
-      \item It's somewhere between Laplace's method and MCMC sampling.
+      \item It's somewhere between Laplace's method and MCMC sampling. \hyperlink{varcompare}{\beamerbutton{details}}
     \end{itemize}
     \item Several real-world examples demonstrated the use of I-probit models for classification and inference.
     \item Further work:
     \begin{itemize}
-      \item R package \code{iprobit}.
-      \item Extend to non-iid errors case.
-      \item Extend to multinomial probit models.
-      \item Other algorithms (e.g. expectation propagation).
+      \item R package \code{iprobit}
+      \item Extend to non-iid errors case
+      \item Extend to multinomial probit models
+      \item Other algorithms (e.g. expectation propagation)
     \end{itemize}
   \end{itemize}
 \end{frame}
